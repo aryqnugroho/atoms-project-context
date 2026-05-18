@@ -7,6 +7,44 @@
 - Repo ini hanya menyimpan konteks, aturan agent, progress, dan next tasks.
 - **Semua 4 service sudah berjalan lokal.**
 - **SSO redirect Maintenance sudah diperbaiki dan berfungsi.**
+- **TFP-003 Transmitter TX module sudah live (2026-05-18).**
+
+## Progress Entries
+
+### feat(tfp): TFP-003 Performance Check Gedung (Transmitter) TX (2026-05-18)
+
+**Module baru:** Performance Check Gedung (Transmitter) TX — TFP-003
+
+**Backend (atoms-maintenance/backend_atoms-maintenance):**
+- 4 migrations: `tfp_transmitter_tx_records`, `_technicians`, `_items`, `_facilities`
+- 4 models: `TfpTransmitterTxRecord`, `TfpTransmitterTxTechnician`, `TfpTransmitterTxItem`, `TfpTransmitterTxFacility`
+- Template: `TfpTransmitterTxTemplate` — 21 parameter, 19 fasilitas
+- Service: `TfpTransmitterTxService` — create/update/sign/delete + roster integration
+- Controller: `TfpTransmitterTxController` — 8 endpoints
+- Requests: Create/Update/Sign
+- Exception: `TfpTransmitterTxDuplicateException`
+- Routes: 8 routes di `/api/v1/tfp/transmitter-tx`
+- Form number: `TFP-TX-YYMMDD-SEQ` (contoh: `TFP-TX-260519-001`)
+
+**Frontend (atoms-maintenance/frontend_atoms-maintenance):**
+- Types: `src/types/tfpTransmitterTx.ts`
+- Service: `src/services/tfpTransmitterTxService.ts`
+- Pages: `TfpTransmitterTxListPage`, `TfpTransmitterTxDetailPage`, `TfpTransmitterTxPrintView`
+- Component: `TfpTransmitterTxSignaturePanel`
+- mockData: TFP-003 `is_active_mvp: true`
+- TfpIndexPage: `TFP-003` ditambahkan ke `TFP_ACTIVE_ROUTES`
+- Router: list/detail/print routes untuk Transmitter TX
+
+**Panel kolom (11 kolom):**
+Panel TX 01, Panel TX 02, Panel COS (TX 03) Input/Output, Panel Output UPS TX 04, Panel UPS (TX 07) Input/Output, Panel AC TX 06, UPS PILLER Input/Output, Panel MILAT RU 11
+
+**Fasilitas (19):** Catu Daya Listrik, Penerangan, Obstacle Light, UPS 30 KVA PILLER, ETS 30 KVA (U/S), AC 02-07 (Split Wall), Exhaust Fan, Papan Nama AirNav, Rumput, APAR/Fire Extinguisher, Atap, Dinding, Pintu (×2)
+
+**Test:** migrate ✅ 4 tables | route:list ✅ 24 TFP routes | test ✅ 2 passed | build ✅
+
+**Commit:**
+- Backend: `a685aa6` — pushed ✅
+- Frontend: `f939eb1` — pushed ✅
 
 ## Progress Entries
 

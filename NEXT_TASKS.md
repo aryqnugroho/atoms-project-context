@@ -15,7 +15,8 @@
 - ✅ Token Sanctum opaque token disimpan di sessionStorage.
 - ✅ Backend maintenance validasi token ke /api/auth/me backend rostering.
 - ✅ DEV_MOCK_AUTH=false (SSO mode aktif).
-- ✅ **Fix: card Maintenance di atoms-rostering sekarang redirect ke atoms-maintenance dengan SSO token.**
+- ✅ Fix: card Maintenance di atoms-rostering sekarang redirect ke atoms-maintenance dengan SSO token.
+- ✅ **TFP-003 Transmitter TX module live** — card aktif, form create/edit/detail/print/sign berjalan.
 
 ## Priority 3 — Perlu Manual Test
 
