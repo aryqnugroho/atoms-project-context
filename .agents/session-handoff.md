@@ -12,7 +12,69 @@
 
 ---
 
-## Current State (per 2026-05-19 — Manual Form Development Hook dibuat)
+## Current State (per 2026-05-19 — CNSD Transmitter Meter Reading module shipped)
+
+### Perubahan Terbaru
+
+| Fitur | Status |
+|---|---|
+| Card "Transmitter" diaktifkan di CNSD index (CNSD-005) | ✅ |
+| Backend module: CnsdTransmitterMeterRecord/Technician/Item + service/template/controller/requests | ✅ |
+| Migrations: `cnsd_transmitter_meter_records`, `cnsd_transmitter_meter_technicians`, `cnsd_transmitter_meter_items` | ✅ |
+| Partial unique index per (form_type, facility, date, shift_type) | ✅ |
+| Item template: 9 groups TX Radio (Ground, ADC, CDU, APP, TMA West, TMA East, ER Makassar, ATIS, Back Up Radio) + 4 Lingkungan Kerja | ✅ |
+| Form-number format: `TRANSMITTER-YYMMDD-SEQ` (contoh `TRANSMITTER-260519-001`) | ✅ |
+| Form code: FORM C-1 | ✅ |
+| Status dropdown: On Air/STBY (PAE primary), Online/Offline (OTE secondary, CDU) | ✅ |
+| Back Up Radio status disabled/blocked (grey cells, backend rejects update) | ✅ |
+| Lingkungan Kerja: 4 items (suhu, humidity, kebersihan, UPS) | ✅ |
+| Roster integration: pull MT, Supervisor CNSD, all CNS technicians | ✅ |
+| Signature authorization: name-match, immutable, no delegation, per-technician row | ✅ |
+| Endpoints: 8 routes di bawah `/api/v1/cnsd/transmitter-meter` | ✅ |
+| Frontend list page, detail/edit page (2 section tabs), signature panel, print view | ✅ |
+| CnsdIndexPage: CNSD-005 aktif di CNSD_ACTIVE_ROUTES | ✅ |
+| Router: list/detail/print routes untuk CNSD Transmitter Meter | ✅ |
+| Print view: AirNav logo, FORM C-1, manual only (no auto-print) | ✅ |
+| EQ-1, Radar, Recorder, AMSC, Work Order, TFP tetap berjalan | ✅ |
+| Backend tests pass (2 passed) | ✅ |
+| Frontend build green | ✅ |
+
+**File diubah/ditambah session ini:**
+
+Backend (atoms-maintenance):
+- New: `app/Models/Cnsd/CnsdTransmitterMeterRecord.php`, `CnsdTransmitterMeterTechnician.php`, `CnsdTransmitterMeterItem.php`
+- New: `app/Services/Cnsd/CnsdTransmitterMeterTemplate.php`, `CnsdTransmitterMeterService.php`
+- New: `app/Http/Controllers/Api/V1/Cnsd/CnsdTransmitterMeterController.php`
+- New: `app/Http/Requests/Cnsd/{Create,Update,Sign}CnsdTransmitterMeterRequest.php`
+- New: `app/Exceptions/CnsdTransmitterMeterDuplicateException.php`
+- New: 3 migrations under `database/migrations/2026_05_19_400001-400003_*`
+- Modified: `routes/api.php` (Transmitter route group)
+
+Frontend (atoms-maintenance):
+- New: `src/types/cnsdTransmitter.ts`
+- New: `src/services/cnsdTransmitterMeterService.ts`
+- New: `src/pages/cnsd/CnsdTransmitterMeterListPage.tsx`
+- New: `src/pages/cnsd/CnsdTransmitterMeterDetailPage.tsx`
+- New: `src/pages/cnsd/CnsdTransmitterMeterPrintView.tsx`
+- New: `src/pages/cnsd/components/CnsdTransmitterMeterSignaturePanel.tsx`
+- Modified: `src/pages/cnsd/CnsdIndexPage.tsx` — CNSD-005 aktif di CNSD_ACTIVE_ROUTES
+- Modified: `src/router/index.tsx` — register Transmitter list/detail/print routes
+- Modified: `src/data/mockData.ts` — CNSD-005 `is_active_mvp: true`
+
+Context:
+- Modified: `KIRO_TASK_CONTEXT.md` — CNSD-005 Transmitter live, format nomor Transmitter
+- Modified: `.agents/session-handoff.md` — current state
+
+**Build/test:** `rtk php artisan migrate` ✅ 3 new migrations | `rtk php artisan route:list --path=cnsd/transmitter` ✅ 8 routes | `rtk test php artisan test` ✅ 2 passed | `rtk npm run build` ✅ green
+
+### Next Steps (Prioritas)
+
+1. **End-to-end manual test** — login via rostering, buka CNSD, klik card Transmitter, buat record, verifikasi teknisi CNSD, form number TRANSMITTER-*, 2 section tabs, print view.
+2. **CNSD modul berikutnya** — Receiver, Glide Path, dll jika ada form referensi resmi.
+3. **Notification adoption** untuk Transmitter (pola EQ-1 sudah ada, tinggal adopt).
+
+
+## Previous State (per 2026-05-19 — Manual Form Development Hook dibuat)
 
 ### Perubahan Terbaru
 

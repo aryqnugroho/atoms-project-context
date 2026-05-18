@@ -13,8 +13,9 @@ Status: ✅ Three pilot modules live (Phase 4)
 | CNSD-002 | Radar Meter Reading | RADAR-METER | ✅ | ✅ `/cnsd/radar-meter` | ✅ |
 | CNSD-003 | **Recorder Meter Reading** | **RECORDER-METER (FORM C-3)** | ✅ | ✅ `/cnsd/recorder-meter` | ✅ |
 | CNSD-004 | **AMSC Meter Reading** | **AMSC-METER** | ✅ | ✅ `/cnsd/amsc-meter` | ✅ |
+| CNSD-005 | **Transmitter Meter Reading** | **TRANSMITTER-METER (FORM C-1)** | ✅ | ✅ `/cnsd/transmitter-meter` | ✅ |
 
-All other CNSD cards (Transmitter, Receiver, Glide Path, Localizer,
+All other CNSD cards (Receiver, Glide Path, Localizer,
 T-DME, DVOR, DME, ATC System, ATIS) remain **Coming Soon** and have no
 backend.
 

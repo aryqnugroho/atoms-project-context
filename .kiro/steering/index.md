@@ -68,7 +68,13 @@ description: Root-level steering for the ATOMS PROJECT workspace. Auto-loaded fo
 | - Frontend: list page, detail/edit (Server A/B + environment layouts), signature panel, print view | ✅ Implemented |
 | - Card Recorder di CNSD index sekarang aktif (CNSD-003) | ✅ Implemented |
 | - U/S item rendering (red strip, disabled inputs, backend update guard) | ✅ Implemented |
-| Other CNSD cards (AMSC, Transmitter, Receiver, Glide Path, Localizer, T-DME, DVOR, DME, ATC System, ATIS) | 🚧 Coming Soon |
+| Other CNSD cards (Receiver, Glide Path, Localizer, T-DME, DVOR, DME, ATC System, ATIS) | 🚧 Coming Soon |
+| **CNSD Transmitter Meter Reading (Phase 4 Module 5)** | ✅ **Live (2026-05-19)** |
+| - Backend: 3 migrations, 3 models, service, template (9 TX groups + 4 env items), controller, requests | ✅ Implemented |
+| - Form-number `TRANSMITTER-YYMMDD-SEQ` (FORM C-1) | ✅ Implemented |
+| - Frontend: list page, detail/edit (Transmitter + Lingkungan Kerja tabs), signature panel, print view | ✅ Implemented |
+| - Card Transmitter di CNSD index sekarang aktif (CNSD-005) | ✅ Implemented |
+| - Back Up Radio status disabled/blocked (grey cells, backend rejects update) | ✅ Implemented |
 | **TFP Performance Check AOB Lantai Ground (Phase 5 Module 1)** | ✅ **Live (2026-05-19)** |
 | - Backend: 4 migrations, 4 models, service, template (21 params + 17 facilities), controller, requests | ✅ Implemented |
 | - Form-number `TFP-AOBLTGND-YYMMDD-SEQ` | ✅ Implemented |
