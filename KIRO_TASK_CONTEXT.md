@@ -82,7 +82,8 @@ Mock login: `http://localhost:5173/login` dengan email apapun.
 | CNSD-001 | Kesiapan Peralatan | EQ-1 | ✅ Live | `/cnsd/readiness` |
 | CNSD-002 | Radar Meter Reading | RADAR-METER | ✅ Live | `/cnsd/radar-meter` |
 | CNSD-003 | Recorder Meter Reading | RECORDER-METER (FORM C-3) | ✅ Live | `/cnsd/recorder-meter` |
-| CNSD-004+ | AMSC, Transmitter, dll | — | 🚧 Coming Soon | — |
+| CNSD-004 | AMSC Meter Reading | AMSC-METER | ✅ Live | `/cnsd/amsc-meter` |
+| CNSD-005+ | Transmitter, dll | — | 🚧 Coming Soon | — |
 
 **Pola roster CNSD (berlaku untuk semua modul CNSD):**
 - Ambil tanggal + shift dari request (frontend kirim dari client clock).
@@ -97,6 +98,7 @@ Mock login: `http://localhost:5173/login` dengan email apapun.
 - EQ-1: `EQ-1-CNSD-YYYYMMDD-SEQ` (contoh: `EQ-1-CNSD-20260519-001`)
 - Radar: `RADAR-YYMMDD-SEQ` (contoh: `RADAR-260519-001`)
 - Recorder: `RECORDER-YYMMDD-SEQ` (contoh: `RECORDER-260519-001`)
+- AMSC: `AMSC-YYMMDD-SEQ` (contoh: `AMSC-260519-001`)
 
 **Signature CNSD:** seluruh teknisi CNSD shift tersebut menjadi signer (per-row).
 Manager dan supervisor sign di header record (nullable jika tidak ada di roster).

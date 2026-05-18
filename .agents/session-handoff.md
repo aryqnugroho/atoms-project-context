@@ -12,7 +12,67 @@
 
 ---
 
-## Current State (per 2026-05-19 — TFP AOB Lantai 1 & 2 module shipped)
+## Current State (per 2026-05-19 — CNSD AMSC Meter Reading module shipped)
+
+### Perubahan Terbaru
+
+| Fitur | Status |
+|---|---|
+| Card "AMSC" diaktifkan di CNSD index (CNSD-004) | ✅ |
+| Backend module: CnsdAmscMeterRecord/Technician/Item + service/template/controller/requests | ✅ |
+| Migrations: `cnsd_amsc_meter_records`, `cnsd_amsc_meter_technicians`, `cnsd_amsc_meter_items` | ✅ |
+| Partial unique index per (form_type, facility, date, shift_type) | ✅ |
+| Item template: 45 items (4 sections: Front Panel 5, PSU 5, Channel 32, Lingkungan 3) | ✅ |
+| Form-number format: `AMSC-YYMMDD-SEQ` (contoh `AMSC-260519-001`) | ✅ |
+| Channel AMSC: 32 channels with default address/status/keterangan from paper form | ✅ |
+| Roster integration: pull MT, Supervisor CNSD, all CNS technicians | ✅ |
+| Signature authorization: name-match, immutable, no delegation, per-technician row | ✅ |
+| Endpoints: 8 routes di bawah `/api/v1/cnsd/amsc-meter` | ✅ |
+| Frontend list page, detail/edit page (4 section tabs), signature panel, print view | ✅ |
+| CnsdIndexPage: CNSD-004 aktif di CNSD_ACTIVE_ROUTES | ✅ |
+| Router: list/detail/print routes untuk CNSD AMSC Meter | ✅ |
+| Dropdown: Normal/Alrm, √/-, OK/Not (Front Panel), Normal/U-S/Fault (Channel status) | ✅ |
+| Print view: CNSD-style signature footer, logo AirNav asli, no auto-print | ✅ |
+| EQ-1, Radar, Recorder, Work Order, TFP tetap berjalan | ✅ |
+| Backend tests pass (2 passed) | ✅ |
+| Frontend build green | ✅ |
+
+**File diubah/ditambah session ini:**
+
+Backend (atoms-maintenance):
+- New: `app/Models/Cnsd/CnsdAmscMeterRecord.php`, `CnsdAmscMeterTechnician.php`, `CnsdAmscMeterItem.php`
+- New: `app/Services/Cnsd/CnsdAmscMeterTemplate.php`, `CnsdAmscMeterService.php`
+- New: `app/Http/Controllers/Api/V1/Cnsd/CnsdAmscMeterController.php`
+- New: `app/Http/Requests/Cnsd/{Create,Update,Sign}CnsdAmscMeterRequest.php`
+- New: `app/Exceptions/CnsdAmscMeterDuplicateException.php`
+- New: 3 migrations under `database/migrations/2026_05_19_300001-300003_*`
+- Modified: `routes/api.php` (AMSC route group)
+- Modified: `BACKEND_CONTEXT.md` (AMSC module section)
+
+Frontend (atoms-maintenance):
+- New: `src/types/cnsdAmsc.ts`
+- New: `src/services/cnsdAmscMeterService.ts`
+- New: `src/pages/cnsd/CnsdAmscMeterListPage.tsx`
+- New: `src/pages/cnsd/CnsdAmscMeterDetailPage.tsx`
+- New: `src/pages/cnsd/CnsdAmscMeterPrintView.tsx`
+- New: `src/pages/cnsd/components/CnsdAmscMeterSignaturePanel.tsx`
+- Modified: `src/pages/cnsd/CnsdIndexPage.tsx` — CNSD-004 aktif di CNSD_ACTIVE_ROUTES
+- Modified: `src/router/index.tsx` — register AMSC list/detail/print routes
+- Modified: `src/data/mockData.ts` — CNSD-004 `is_active_mvp: true`
+
+Context:
+- Modified: `KIRO_TASK_CONTEXT.md` — CNSD-004 AMSC live, format nomor AMSC
+
+**Build/test:** `rtk php artisan migrate` ✅ 3 new migrations | `rtk php artisan route:list --path=cnsd/amsc` ✅ 8 routes | `rtk test php artisan test` ✅ 2 passed | `rtk npm run build` ✅ green
+
+### Next Steps (Prioritas)
+
+1. **End-to-end manual test** — login via rostering, buka CNSD, klik card AMSC, buat record, verifikasi teknisi CNSD, form number AMSC-*, 4 section tabs, print view.
+2. **CNSD modul berikutnya** — Transmitter, Receiver, dll jika ada form referensi resmi.
+3. **Notification adoption** untuk AMSC (pola EQ-1 sudah ada, tinggal adopt).
+
+
+## Previous State (per 2026-05-19 — TFP AOB Lantai 1 & 2 module shipped)
 
 ### Perubahan Terbaru
 
