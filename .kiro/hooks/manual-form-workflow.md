@@ -108,8 +108,27 @@ Semua constraint ini berlaku tanpa pengecualian:
 | ❌ Jangan merusak modul CNSD/TFP yang sudah berjalan | Setiap modul hidup di namespace terpisah |
 | ❌ Dynamic form HOLD | Jangan implementasikan dalam kondisi apapun |
 | ❌ Jangan force push | Selalu pull --rebase jika remote lebih baru |
+| ❌ Jangan hapus route/module hasil pull | Investigasi dulu jika controller missing |
 | ✅ Semua terminal command wajib RTK | Lihat `.kiro/steering/rtk-rules.md` |
 | ✅ Jangan push sebelum build/test hijau | Build dan test harus pass dulu |
+
+### Collaborative Pull Safety Rule
+
+Setelah pull/rebase, agent **tidak boleh** menghapus file, route, controller, migration, service, atau frontend page yang berasal dari update remote hanya karena belum dipahami atau controller terlihat missing.
+
+**Jika ada controller/route yang terlihat missing setelah pull:**
+1. Cek apakah pull sudah lengkap (`rtk git status`, `rtk git log`)
+2. Cek branch aktif (`rtk git branch --show-current`)
+3. Cek remote terbaru (`rtk git fetch origin`)
+4. Cek namespace dan file path (`Get-ChildItem -Recurse -Filter "ControllerName*"`)
+5. Cek composer autoload (`rtk composer dump-autoload`)
+6. Cek apakah perubahan ada di repo lain (frontend/context)
+7. Cek git log remote (`rtk git log origin/main -n 10`)
+
+**Aturan:**
+- Agent harus menyesuaikan integrasi, bukan menghapus hasil kerja developer lain.
+- Jika ada dependency belum lengkap, laporkan sebagai blocker.
+- Penghapusan route/module hasil kerja orang lain hanya boleh dilakukan jika user meminta eksplisit.
 
 ---
 

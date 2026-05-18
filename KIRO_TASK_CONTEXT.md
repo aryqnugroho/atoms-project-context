@@ -30,7 +30,9 @@
 ❌ Jangan merusak modul CNSD yang sudah berjalan (EQ-1, Radar, Recorder).
 ❌ Jangan aktifkan WorkOrderSeeder default.
 ❌ Jangan push sebelum build/test hijau.
+❌ Jangan menghapus route/controller/module hasil pull dari developer lain.
 ✅ Semua terminal command wajib pakai RTK (lihat `.kiro/steering/rtk-rules.md`).
+✅ Jika ada controller/route missing setelah pull, investigasi dulu — jangan hapus.
 
 ---
 

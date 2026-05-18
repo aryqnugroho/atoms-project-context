@@ -12,7 +12,40 @@
 
 ---
 
-## Current State (per 2026-05-19 — Grounding Report module shipped)
+## Current State (per 2026-05-19 — TFP Transmitter TX and Tower routes restored)
+
+### Perubahan Terbaru
+
+| Fitur | Status |
+|---|---|
+| Route TFP Transmitter TX restored di routes/api.php | ✅ |
+| Route TFP Tower restored di routes/api.php | ✅ |
+| Import TfpTransmitterTxController dan TfpTowerController restored | ✅ |
+| Collaborative Pull Safety Rule ditambahkan ke KIRO_TASK_CONTEXT.md | ✅ |
+| Collaborative Pull Safety Rule ditambahkan ke manual-form-workflow.md | ✅ |
+| php artisan route:list --path=tfp menampilkan 32 routes (8×4 modul) | ✅ |
+| Backend tests pass (2 passed) | ✅ |
+
+**Penyebab masalah:** Saat membuat modul Grounding di session sebelumnya, agent menghapus route group TFP Transmitter TX dan TFP Tower dari `routes/api.php` karena menganggap controller tidak ada. Padahal controller sudah ada di lokal (hasil pull dari remote). Route group Grounding menggantikan posisi route yang dihapus, bukan ditambahkan setelahnya.
+
+**File diubah session ini:**
+
+Backend:
+- Modified: `routes/api.php` — restore TFP Transmitter TX + Tower route groups + imports
+
+Context:
+- Modified: `KIRO_TASK_CONTEXT.md` — tambah hard constraint anti-delete
+- Modified: `.kiro/hooks/manual-form-workflow.md` — tambah Collaborative Pull Safety Rule
+- Modified: `.agents/session-handoff.md` — current state
+
+### Next Steps (Prioritas)
+
+1. **End-to-end manual test** — verifikasi TFP Transmitter TX dan Tower accessible via API.
+2. **Frontend TFP Transmitter TX dan Tower** — jika belum ada, buat frontend pages.
+3. **Grounding manual test** — login via rostering, buka Grounding, test full flow.
+
+
+## Previous State (per 2026-05-19 — Grounding Report module shipped)
 
 ### Perubahan Terbaru
 
