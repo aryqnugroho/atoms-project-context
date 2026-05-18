@@ -5,9 +5,39 @@
 - Root ATOMS-PROJECT digunakan sebagai context-only repository.
 - Folder atoms-maintenance/ dan atoms-rostering/ tidak ikut commit.
 - Repo ini hanya menyimpan konteks, aturan agent, progress, dan next tasks.
-- **Semua 4 service sudah berjalan lokal (2026-05-18).**
+- **Semua 4 service sudah berjalan lokal.**
+- **SSO redirect Maintenance sudah diperbaiki dan berfungsi.**
 
 ## Progress Entries
+
+### Fix: Maintenance Menu SSO Redirect (2026-05-18)
+
+**Masalah:** Card Maintenance di atoms-rostering menggunakan `navigate('/maintenance')` yang mengarah ke halaman internal "Coming Soon" di atoms-rostering, bukan ke atoms-maintenance.
+
+**Root cause:** `MenuGrid.tsx` mendefinisikan `route: '/maintenance'` dan menggunakan `useNavigate()` untuk semua menu item, termasuk Maintenance. Tidak ada SSO token handoff.
+
+**Perbaikan:**
+- `MenuGrid.tsx` — tambahkan `handleItemClick()` yang mendeteksi item Maintenance secara khusus
+- Saat Maintenance diklik: baca token dari `sessionStorage['auth_token']` via `getStoredToken()`
+- Redirect ke `VITE_MAINTENANCE_URL?token={encodeURIComponent(token)}`
+- Jika tidak ada token: redirect ke `VITE_MAINTENANCE_URL` saja (atoms-maintenance akan redirect ke rostering login)
+- Tambahkan `VITE_MAINTENANCE_URL=http://localhost:5173` ke `.env` dan `.env.example`
+
+**File yang diubah:**
+- `atoms-rostering/frontend_atoms/src/components/feature/home/MenuGrid.tsx`
+- `atoms-rostering/frontend_atoms/.env` (tambah VITE_MAINTENANCE_URL)
+- `atoms-rostering/frontend_atoms/.env.example` (dibuat baru)
+
+**Commit:** `94a5730` di atoms-rostering/frontend_atoms
+
+**Smoke test:**
+- Login rostering: ✅ 200 OK
+- Rostering `/api/auth/me`: ✅ 200 OK
+- Maintenance `/api/v1/auth/verify`: ✅ 200 OK, user: Administrator/Admin
+- Build rostering frontend: ✅
+- Build maintenance frontend: ✅
+
+---
 
 ### Full Local Setup & Integration (2026-05-18)
 
@@ -15,7 +45,7 @@
 - Database PostgreSQL dibuat: `atoms_rostering` dan `atoms_maintenance`
 - Backend atoms-rostering: composer install ✅, key:generate ✅, migrate ✅, db:seed ✅
 - Backend atoms-maintenance: composer install ✅, key:generate ✅, migrate ✅
-- Frontend atoms-rostering: npm install ✅, build ✅ (fix unused import Select di ProfileModal.tsx)
+- Frontend atoms-rostering: npm install ✅, build ✅
 - Frontend atoms-maintenance: npm install ✅, build ✅
 
 **Service berjalan:**
@@ -31,23 +61,11 @@
 - Semua user: `user1@airnav.com` s/d `user54@airnav.com` / `password`
 - Total: 55 user (1 admin + 54 karyawan)
 
-**Integrasi SSO:**
-- Login atoms-rostering → token Sanctum opaque → sessionStorage
-- Frontend maintenance kirim `Authorization: Bearer {token}`
-- Backend maintenance validasi ke `GET http://127.0.0.1:8001/api/auth/me` ✅
-- Endpoint `/api/v1/auth/verify` maintenance → 200 OK ✅
-- CORS rostering mengizinkan localhost:5173 dan localhost:5174 ✅
-
 **Test:**
 - atoms-maintenance: 2 passed ✅
 - atoms-rostering: 19 passed, 9 failed (RosterControllerTest — test fixture issue, bukan bug kita)
 
-**File yang diubah:**
-- atoms-rostering/frontend_atoms/src/components/modals/user/ProfileModal.tsx — hapus unused import Select
-- atoms-rostering/frontend_atoms/.env — fix VITE_API_URL ke port 8001 (sebelumnya salah ke 8000)
-- atoms-rostering/backend_atoms/.env — dibuat baru (PostgreSQL, port 8001)
-- atoms-maintenance/backend_atoms-maintenance/.env — dibuat baru (PostgreSQL, ROSTERING_API_URL, DEV_MOCK_AUTH=false)
-- atoms-maintenance/frontend_atoms-maintenance/.env — dibuat baru (VITE_API_URL, VITE_ROSTERING_FRONTEND_URL)
+---
 
 ### Initial Context Repo Setup
 
