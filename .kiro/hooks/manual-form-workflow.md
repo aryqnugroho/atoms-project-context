@@ -112,7 +112,31 @@ Semua constraint ini berlaku tanpa pengecualian:
 | ✅ Semua terminal command wajib RTK | Lihat `.kiro/steering/rtk-rules.md` |
 | ✅ Jangan push sebelum build/test hijau | Build dan test harus pass dulu |
 
-### Collaborative Pull Safety Rule
+### Signer Role Deduplication Rule
+
+Setelah membangun daftar `$technicians` di `resolveRosterContext()`, wajib exclude supervisor dan manager:
+
+```php
+$technicians = \App\Services\WorkOrderService::excludeSignerRoles(
+    $technicians,
+    $rosterSupervisor ? (int) $rosterSupervisor->user_id : null,
+    $supervisor?->name,
+    $rosterManager ? (int) $rosterManager->user_id : null,
+    $manager?->name,
+);
+```
+
+**Aturan:**
+- Manager Teknik tidak boleh masuk daftar teknisi.
+- Supervisor tidak boleh masuk daftar teknisi.
+- Jika seseorang punya role Supervisor pada shift/form tersebut, tampilkan hanya di kolom Supervisor.
+- Daftar Teknisi/Pelaksana hanya berisi teknisi murni sesuai divisi.
+- Dedup harus dilakukan di backend/service saat record dibuat.
+- Frontend hanya menampilkan hasil dari backend.
+
+**Matching:** user_id comparison (prioritas) + tolerant name match (fallback).
+
+**Berlaku untuk:** semua service yang punya `resolveRosterContext()` — TFP dan CNSD.
 
 Setelah pull/rebase, agent **tidak boleh** menghapus file, route, controller, migration, service, atau frontend page yang berasal dari update remote hanya karena belum dipahami atau controller terlihat missing.
 

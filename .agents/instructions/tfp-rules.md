@@ -190,6 +190,31 @@ Type definitions: `src/types/tfpAobGround.ts`. API client: `src/services/tfpAobG
 
 ---
 
+## Signer Role Deduplication Rule
+
+**Rule:** Supervisor dan Manager Teknik tidak boleh masuk ke daftar Pelaksana Teknisi.
+
+**Akar masalah:** `getShiftPersonnel()` mengembalikan semua personel divisi termasuk supervisor (grade ≥ 13 tapi employee_type tetap 'CNS'/'Support'). Tanpa filter, supervisor muncul dua kali: di kolom Supervisor dan di daftar Teknisi.
+
+**Fix:** Setelah membangun daftar `$technicians` di `resolveRosterContext()`, panggil:
+```php
+$technicians = \App\Services\WorkOrderService::excludeSignerRoles(
+    $technicians,
+    $rosterSupervisor ? (int) $rosterSupervisor->user_id : null,
+    $supervisor?->name,
+    $rosterManager ? (int) $rosterManager->user_id : null,
+    $manager?->name,
+);
+```
+
+**Matching:** user_id comparison (prioritas) + tolerant name match (fallback).
+
+**Berlaku untuk:** semua service yang punya `resolveRosterContext()` — TFP (AOB Ground, AOB Lt12, Transmitter TX, Tower, Grounding) dan CNSD (EQ-1, Radar, Recorder, AMSC, Transmitter).
+
+**Data lama:** record yang sudah terlanjur punya supervisor di daftar teknisi tidak diubah otomatis. Bisa dibersihkan dengan task/migration terpisah jika diperlukan.
+
+---
+
 ## Hard Constraints
 
 - ❌ Jangan tambah backend untuk card TFP lain di session yang sama.

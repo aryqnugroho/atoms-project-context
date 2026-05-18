@@ -12,7 +12,52 @@
 
 ---
 
-## Current State (per 2026-05-19 — TFP Transmitter TX and Tower routes restored)
+## Current State (per 2026-05-19 — Signer Role Deduplication fix shipped)
+
+### Perubahan Terbaru
+
+| Fitur | Status |
+|---|---|
+| `WorkOrderService::excludeSignerRoles()` static helper ditambahkan | ✅ |
+| TFP AOB Ground: supervisor + manager excluded dari technicians | ✅ |
+| TFP AOB Lt 1 & 2: supervisor + manager excluded dari technicians | ✅ |
+| TFP Transmitter TX: supervisor + manager excluded dari technicians | ✅ |
+| TFP Tower: supervisor + manager excluded dari technicians | ✅ |
+| Grounding: supervisor + manager excluded dari technicians | ✅ |
+| CNSD EQ-1: supervisor + manager excluded dari technicians | ✅ |
+| CNSD Radar: supervisor + manager excluded dari technicians | ✅ |
+| CNSD Recorder: supervisor + manager excluded dari technicians | ✅ |
+| CNSD AMSC: supervisor + manager excluded dari technicians | ✅ |
+| CNSD Transmitter: supervisor + manager excluded dari technicians | ✅ |
+| Backend tests pass (2 passed) | ✅ |
+| Frontend build green (no frontend changes needed) | ✅ |
+
+**Akar masalah:** `getShiftPersonnel()` di `RosteringIntegrationService` mengembalikan SEMUA personel divisi (CNS atau Support) termasuk supervisor (yang memiliki `grade >= 13` tapi tetap `employee_type = 'CNS'/'Support'`). Supervisor tidak di-exclude dari daftar teknisi, sehingga muncul dua kali: sekali di kolom Supervisor, sekali di daftar Pelaksana Teknisi.
+
+**Fix:** Tambah static helper `WorkOrderService::excludeSignerRoles()` yang menerima daftar teknisi + user_id/nama supervisor + user_id/nama manager, lalu filter keluar siapapun yang cocok. Matching menggunakan user_id comparison (prioritas) + tolerant name match (fallback). Dipanggil di akhir `resolveRosterContext()` di semua 10 service.
+
+**File diubah session ini:**
+
+Backend:
+- Modified: `app/Services/WorkOrderService.php` — tambah `excludeSignerRoles()` static helper
+- Modified: `app/Services/Tfp/TfpAobGroundService.php` — apply dedup
+- Modified: `app/Services/Tfp/TfpAobLt12Service.php` — apply dedup
+- Modified: `app/Services/Tfp/TfpTransmitterTxService.php` — apply dedup
+- Modified: `app/Services/Tfp/TfpTowerService.php` — apply dedup
+- Modified: `app/Services/Grounding/GroundingReportService.php` — apply dedup
+- Modified: `app/Services/Cnsd/CnsdReadinessService.php` — apply dedup
+- Modified: `app/Services/Cnsd/CnsdRadarMeterService.php` — apply dedup
+- Modified: `app/Services/Cnsd/CnsdRecorderMeterService.php` — apply dedup
+- Modified: `app/Services/Cnsd/CnsdAmscMeterService.php` — apply dedup
+- Modified: `app/Services/Cnsd/CnsdTransmitterMeterService.php` — apply dedup
+
+### Next Steps (Prioritas)
+
+1. **End-to-end manual test** — buat record baru pada shift yang memiliki Supervisor TFP, verifikasi supervisor tidak muncul di daftar teknisi.
+2. **Data lama** — record yang sudah terlanjur punya supervisor di daftar teknisi tidak diubah otomatis. Bisa dibersihkan dengan task/migration terpisah jika diperlukan.
+
+
+## Previous State (per 2026-05-19 — TFP Transmitter TX and Tower routes restored)
 
 ### Perubahan Terbaru
 

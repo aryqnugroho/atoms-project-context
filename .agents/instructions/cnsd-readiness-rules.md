@@ -234,6 +234,25 @@ Logic: client-side name match terhadap `manager_name`, `supervisor_name`, `techn
 
 ---
 
+## Signer Role Deduplication Rule
+
+**Rule:** Supervisor CNSD dan Manager Teknik tidak boleh masuk ke daftar Teknisi CNSD.
+
+**Fix:** Setelah membangun daftar `$technicians` di `resolveRosterContext()`, panggil:
+```php
+$technicians = \App\Services\WorkOrderService::excludeSignerRoles(
+    $technicians,
+    $rosterSupervisor ? (int) $rosterSupervisor->user_id : null,
+    $supervisor?->name,
+    $rosterManager ? (int) $rosterManager->user_id : null,
+    $manager?->name,
+);
+```
+
+Berlaku untuk semua modul CNSD: EQ-1, Radar, Recorder, AMSC, Transmitter, dan form berikutnya.
+
+---
+
 ## Hard Constraints
 
 - ❌ Jangan tambah backend untuk card CNSD lain di session yang sama.
