@@ -1,0 +1,58 @@
+# ─── Project folders (NOT part of this context repo) ─────────────────────────
+# These are separate git repos with their own remotes.
+atoms-maintenance/
+atoms-rostering/
+
+# ─── Environment & secrets ────────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ─── Dependencies ─────────────────────────────────────────────────────────────
+node_modules/
+vendor/
+
+# ─── Build / dist / cache ─────────────────────────────────────────────────────
+dist/
+build/
+.cache/
+*.cache
+
+# ─── Logs & storage ───────────────────────────────────────────────────────────
+logs/
+*.log
+storage/logs/
+storage/framework/cache/
+storage/framework/sessions/
+storage/framework/views/
+
+# ─── Temp / local artifacts ───────────────────────────────────────────────────
+tmp/
+temp/
+*.tmp
+*.bak
+
+# ─── Screenshots & local media ────────────────────────────────────────────────
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.mp4
+*.mov
+
+# ─── OS artifacts ─────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ─── IDE ──────────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.suo
+*.user
+
+# ─── Archives (local backups, not needed in context repo) ─────────────────────
+*.rar
+*.zip
+*.tar.gz
+*.7z
