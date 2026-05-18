@@ -8,7 +8,7 @@
 - **Semua 4 service sudah berjalan lokal.**
 - **SSO redirect Maintenance sudah diperbaiki dan berfungsi.**
 - **TFP-005 Tower module sudah live (2026-05-18).**
-- **TFP-007 Localizer module sudah live (2026-05-18).**
+- **TFP-008 Glide Path module sudah live (2026-05-18). Semua 8 card TFP aktif.**
 
 ## Progress Entries
 
