@@ -8,6 +8,7 @@
 - **Semua 4 service sudah berjalan lokal.**
 - **SSO redirect Maintenance sudah diperbaiki dan berfungsi.**
 - **TFP-005 Tower module sudah live (2026-05-18).**
+- **TFP-004 Radar module sudah live (2026-05-18).**
 
 ## Progress Entries
 
