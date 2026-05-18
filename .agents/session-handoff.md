@@ -12,7 +12,47 @@
 
 ---
 
-## Current State (per 2026-05-19 — CNSD AMSC Meter Reading module shipped)
+## Current State (per 2026-05-19 — CNSD AMSC print footer fix)
+
+### Perubahan Terbaru
+
+| Fitur | Status |
+|---|---|
+| Migration: tambah `day_name` + `time_filled` ke `cnsd_amsc_meter_records` | ✅ |
+| Model: `day_name` + `time_filled` masuk `$fillable` | ✅ |
+| Service: set `day_name` + `time_filled` saat create, refresh `time_filled` saat update | ✅ |
+| Controller: expose `day_name` + `time_filled` di summary + detail response | ✅ |
+| Frontend type: tambah `day_name` + `time_filled` ke `CnsdAmscMeterRecordDetail` + Summary | ✅ |
+| Print view: footer sekarang menampilkan Hari/Tanggal/Jam dari record | ✅ |
+| Print view: signature footer mengikuti pola EQ-1/Recorder (border-black, dashed box, signed_at) | ✅ |
+| Print view: "Tidak ada supervisor pada shift ini" jika supervisor null | ✅ |
+| Print view: "Manager Teknik tidak ditugaskan" jika manager null | ✅ |
+| Print view: tetap manual only (no auto-print) | ✅ |
+| Backend tests pass (2 passed) | ✅ |
+| Frontend build green | ✅ |
+
+**File diubah session ini:**
+
+Backend:
+- Modified: `app/Models/Cnsd/CnsdAmscMeterRecord.php` — tambah `day_name`, `time_filled` ke `$fillable`
+- Modified: `app/Services/Cnsd/CnsdAmscMeterService.php` — set `day_name`/`time_filled` saat create, refresh `time_filled` saat update
+- Modified: `app/Http/Controllers/Api/V1/Cnsd/CnsdAmscMeterController.php` — expose `day_name`/`time_filled` di response
+- New: `database/migrations/2026_05_19_300004_add_time_fields_to_cnsd_amsc_meter_records.php`
+
+Frontend:
+- Modified: `src/types/cnsdAmsc.ts` — tambah `day_name`, `time_filled` ke interfaces
+- Modified: `src/pages/cnsd/CnsdAmscMeterPrintView.tsx` — rewrite footer dengan waktu pelaksanaan + signature pola EQ-1/Recorder
+
+**Build/test:** `rtk php artisan migrate` ✅ 1 new migration | `rtk test php artisan test` ✅ 2 passed | `rtk npm run build` ✅ green
+
+### Next Steps (Prioritas)
+
+1. **End-to-end manual test** — buka AMSC print view, verifikasi Hari/Tanggal/Jam tampil, signature footer mirip EQ-1.
+2. **CNSD modul berikutnya** — Transmitter, Receiver, dll jika ada form referensi resmi.
+3. **Notification adoption** untuk AMSC (pola EQ-1 sudah ada, tinggal adopt).
+
+
+## Previous State (per 2026-05-19 — CNSD AMSC Meter Reading module shipped)
 
 ### Perubahan Terbaru
 

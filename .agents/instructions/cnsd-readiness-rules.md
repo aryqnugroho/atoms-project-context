@@ -484,11 +484,13 @@ Color coding: `Normal`/`√` → emerald. `Alrm`/`Fault`/`-` → red.
 - Notification trigger saat create / completed (pola EQ-1 sudah ada, tinggal adopt).
 - Backend untuk card CNSD keempat (AMSC/Transmitter/...) — masih Coming Soon.
 
-### Hard Constraints (Recorder)
-- ❌ Jangan ubah skema `cnsd_recorder_meter_*` tanpa migration baru.
+### Hard Constraints (AMSC)
+- ❌ Jangan ubah skema `cnsd_amsc_meter_*` tanpa migration baru.
 - ❌ Jangan ambil personel TFP atau dari shift lain.
-- ❌ Jangan ubah `merk` / `type` / `serial_number` / `form_code` / `form_number` setelah tersimpan.
+- ❌ Jangan ubah `merk` / `type` / `serial_number` / `form_number` setelah tersimpan.
 - ❌ Jangan biarkan teknisi A menandatangani row teknisi B.
-- ❌ Jangan biarkan blocked / U/S item bisa diisi (frontend disable, backend abaikan patch).
-- ✅ Item template hanya boleh diubah via `CnsdRecorderMeterTemplate` source.
-- ✅ EQ-1 dan Radar tetap berjalan tanpa perubahan — Recorder hidup di tabel & namespace terpisah.
+- ✅ Item template hanya boleh diubah via `CnsdAmscMeterTemplate` source.
+- ✅ EQ-1, Radar, dan Recorder tetap berjalan tanpa perubahan — AMSC hidup di tabel & namespace terpisah.
+- ✅ `time_filled` di-refresh setiap kali user Simpan Perubahan (pola TFP AOB Ground).
+- ✅ `day_name` di-set saat create dari `now()->format('w')` (Indonesian day name).
+- ✅ Print view footer menampilkan Hari/Tanggal/Jam dari record, bukan dari render time.
