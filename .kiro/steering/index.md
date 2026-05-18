@@ -15,6 +15,8 @@ description: Root-level steering for the ATOMS PROJECT workspace. Auto-loaded fo
 
 **[`.kiro/steering/rtk-rules.md`](./rtk-rules.md)** — **Wajib dibaca sebelum menjalankan terminal command apapun.** RTK menghemat 60–90% token.
 
+**[`.kiro/hooks/manual-form-workflow.md`](../hooks/manual-form-workflow.md)** — **Wajib dibaca sebelum membuat form manual baru.** Checklist lengkap: pull, backend, frontend, roster, signature, print view, testing, docs, commit, push.
+
 **[`.agents/agents.md`](../../.agents/agents.md)** — Master agent guide: arsitektur, rules, integration status, hard constraints.
 
 **[`.agents/session-handoff.md`](../../.agents/session-handoff.md)** — Status task terakhir dan next steps.
@@ -120,6 +122,23 @@ description: Root-level steering for the ATOMS PROJECT workspace. Auto-loaded fo
 | Work order rules | `.agents/instructions/workorder-rules.md` |
 | UI design instructions | `.agents/instructions/ui-design.md` |
 | Rostering integration guide | `atoms-maintenance/backend_atoms-maintenance/docs/ROSTERING_INTEGRATION.md` |
+
+## Form Development Hooks
+
+Untuk task pembuatan atau perbaikan form manual, baca hook yang sesuai:
+
+| Task | Hook Wajib | Instruction Tambahan |
+|------|-----------|----------------------|
+| **Form manual baru (semua domain)** | **[`.kiro/hooks/manual-form-workflow.md`](../hooks/manual-form-workflow.md)** | Checklist lengkap dari pull hingga push |
+| Task CNSD | `.kiro/hooks/manual-form-workflow.md` + `.agents/instructions/cnsd-readiness-rules.md` | Pola EQ-1 sebagai referensi utama |
+| Task TFP | `.kiro/hooks/manual-form-workflow.md` + `.agents/instructions/tfp-rules.md` | Pola AOB Ground sebagai referensi |
+| Task Ground Check / Grounding | `.kiro/hooks/manual-form-workflow.md` | Baca modul CNSD/TFP yang paling mirip |
+
+**Aturan wajib untuk semua task form:**
+- Selalu pull backend/frontend/context sebelum coding
+- Selalu update docs setelah task selesai
+- Selalu commit dan push context setelah task selesai
+- Dynamic form tetap **HOLD** — jangan diimplementasikan
 
 ## Terminal Commands
 

@@ -65,6 +65,7 @@ Lihat → [`.agents/project-boundary.md`](./project-boundary.md)
 | Document | Location | Purpose |
 |----------|----------|---------|
 | **Task Context (ringkas)** | **[`KIRO_TASK_CONTEXT.md`](../KIRO_TASK_CONTEXT.md)** | **Baca ini dulu — hard constraints, SSO, signature, CNSD, TFP pattern** |
+| **Manual Form Hook** | **[`.kiro/hooks/manual-form-workflow.md`](../.kiro/hooks/manual-form-workflow.md)** | **Wajib sebelum membuat form manual baru — checklist lengkap** |
 | Getting Started | [`.agents/GETTING_STARTED.md`](./GETTING_STARTED.md) | Setup lokal dev |
 | Project Boundary | [`.agents/project-boundary.md`](./project-boundary.md) | Batas zona kerja |
 | Session Handoff | [`.agents/session-handoff.md`](./session-handoff.md) | Status task terakhir |

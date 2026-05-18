@@ -12,7 +12,55 @@
 
 ---
 
-## Current State (per 2026-05-19 — CNSD AMSC print footer fix)
+## Current State (per 2026-05-19 — Manual Form Development Hook dibuat)
+
+### Perubahan Terbaru
+
+| Fitur | Status |
+|---|---|
+| `.kiro/hooks/manual-form-workflow.md` dibuat | ✅ |
+| `.kiro/steering/index.md` diupdate — referensi hook + section Form Development Hooks | ✅ |
+| `KIRO_TASK_CONTEXT.md` diupdate — section Manual Form Development Hook | ✅ |
+| `.agents/agents.md` diupdate — tambah Manual Form Hook ke Key Instructions | ✅ |
+
+**File dibuat/diubah session ini:**
+
+Context:
+- New: `.kiro/hooks/manual-form-workflow.md` — hook workflow 16 section
+- Modified: `.kiro/steering/index.md` — referensi hook, section Form Development Hooks
+- Modified: `KIRO_TASK_CONTEXT.md` — section 10 Manual Form Development Hook
+- Modified: `.agents/agents.md` — tambah Manual Form Hook ke Key Instructions table
+
+**Tidak ada perubahan file aplikasi (backend/frontend).**
+
+### Ringkasan Hook
+
+`.kiro/hooks/manual-form-workflow.md` mencakup 16 section:
+1. Tujuan Hook
+2. File Wajib Dibaca
+3. Pull/Sync Wajib
+4. Hard Constraints
+5. Pola Backend Form Manual
+6. Pola Frontend Form Manual
+7. Pola Roster (CNSD vs TFP)
+8. Pola Signature + Footer Print
+9. Pola Nomor Form
+10. Pola Template Item
+11. Pola UI Detail/Edit
+12. Pola Print View (termasuk larangan auto-print)
+13. Testing Wajib (command + manual checklist)
+14. Dokumentasi Wajib
+15. Commit dan Push Wajib
+16. Output Akhir Standar
+
+### Next Steps (Prioritas)
+
+1. **CNSD modul berikutnya** — Transmitter, Receiver, dll jika ada form referensi resmi.
+2. **TFP modul berikutnya** — form TFP lain jika ada form referensi resmi.
+3. **Notification adoption** untuk AMSC, Radar, Recorder (pola EQ-1 sudah ada).
+
+
+## Previous State (per 2026-05-19 — CNSD AMSC print footer fix)
 
 ### Perubahan Terbaru
 

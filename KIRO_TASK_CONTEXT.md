@@ -208,7 +208,22 @@ Output:
 
 ---
 
-## 10. Port Assignments (Local Dev)
+## 10. Manual Form Development Hook
+
+**Hook utama:** `.kiro/hooks/manual-form-workflow.md`
+
+Wajib dibaca sebelum membuat form manual baru. Berlaku untuk:
+- CNSD (EQ-1, Radar, Recorder, AMSC, dan form berikutnya)
+- TFP (AOB Ground, AOB Lt 1 & 2, dan form berikutnya)
+- Ground Check, Grounding, dan form manual lainnya
+
+**Dynamic form tetap HOLD** — jangan diimplementasikan dalam kondisi apapun.
+
+Hook mencakup: pull wajib, pola backend, pola frontend, roster, signature, nomor form, template item, UI detail, print view, testing, dokumentasi, commit, dan push.
+
+---
+
+## 11. Port Assignments (Local Dev)
 
 | Service | Port |
 |---|---|
