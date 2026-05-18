@@ -170,7 +170,29 @@ Setiap task selesai wajib update:
 
 ---
 
-## 9. How to Use This Context
+## 9. Grounding Current State
+
+**Grounding Report — ✅ Live (2026-05-19)**
+
+| Modul | Form | Status | Route |
+|---|---|---|---|
+| Laporan Grounding & Penangkal Petir | GROUNDING | ✅ Live | `/grounding` |
+
+**Pola roster Grounding:**
+- Identik dengan TFP: `employee_type='Support'`, Supervisor TFP, Manager Teknik
+- Multiple records per shift diperbolehkan (berbeda peralatan)
+- Jika tidak ada teknisi TFP → create gagal 422
+
+**Format nomor laporan:**
+- Grounding: `GROUNDING-YYMMDD-SEQ` (contoh: `GROUNDING-260519-001`)
+
+**Template:**
+- 6 VISUAL items (Terminal Udara, Konduktor Turun, Modul Penangkal Petir, Sambungan dan Clamp, Kabel Pembumian, Lightning Counter)
+- 3 PENGUKURAN items (Nilai Tahanan Tanah, Nilai Tahanan Pentanahan, Uji Kontinuitas)
+
+---
+
+## 10. How to Use This Context
 
 Template prompt pendek untuk task berikutnya:
 

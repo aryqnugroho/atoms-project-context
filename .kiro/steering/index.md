@@ -69,6 +69,13 @@ description: Root-level steering for the ATOMS PROJECT workspace. Auto-loaded fo
 | - Card Recorder di CNSD index sekarang aktif (CNSD-003) | ✅ Implemented |
 | - U/S item rendering (red strip, disabled inputs, backend update guard) | ✅ Implemented |
 | Other CNSD cards (Receiver, Glide Path, Localizer, T-DME, DVOR, DME, ATC System, ATIS) | 🚧 Coming Soon |
+| **Grounding Report (2026-05-19)** | ✅ **Live** |
+| - Backend: 3 migrations, 3 models, service, template (6 VISUAL + 3 PENGUKURAN), controller, requests | ✅ Implemented |
+| - Report-number `GROUNDING-YYMMDD-SEQ` | ✅ Implemented |
+| - Roster: TFP (Support), Supervisor TFP, Manager Teknik | ✅ Implemented |
+| - Frontend: list page (API-connected, create modal), detail/edit, signature panel, print view | ✅ Implemented |
+| - Hapus dropdown Kantor Unit Kerja, hapus Dibuat Oleh/Disetujui Oleh | ✅ Implemented |
+| - Print view: AirNav logo, TFP-style footer signature, manual only | ✅ Implemented |
 | **CNSD Transmitter Meter Reading (Phase 4 Module 5)** | ✅ **Live (2026-05-19)** |
 | - Backend: 3 migrations, 3 models, service, template (9 TX groups + 4 env items), controller, requests | ✅ Implemented |
 | - Form-number `TRANSMITTER-YYMMDD-SEQ` (FORM C-1) | ✅ Implemented |

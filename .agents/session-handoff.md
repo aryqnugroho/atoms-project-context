@@ -12,7 +12,67 @@
 
 ---
 
-## Current State (per 2026-05-19 — CNSD Transmitter Meter Reading module shipped)
+## Current State (per 2026-05-19 — Grounding Report module shipped)
+
+### Perubahan Terbaru
+
+| Fitur | Status |
+|---|---|
+| Backend module: GroundingReportRecord/Technician/Item + service/template/controller/requests | ✅ |
+| Migrations: `grounding_report_records`, `grounding_report_technicians`, `grounding_report_items` | ✅ |
+| Item template: 6 VISUAL items + 3 PENGUKURAN items | ✅ |
+| Report-number format: `GROUNDING-YYMMDD-SEQ` (contoh `GROUNDING-260519-001`) | ✅ |
+| Multiple records per shift allowed (berbeda peralatan) | ✅ |
+| Roster integration: pull MT, Supervisor TFP, all Support technicians | ✅ |
+| Signature authorization: name-match, immutable, no delegation, per-technician row | ✅ |
+| Endpoints: 8 routes di bawah `/api/v1/grounding/reports` | ✅ |
+| Frontend list page: API-connected, search/filter, create modal (no kantor dropdown) | ✅ |
+| Frontend detail page: checklist form (VISUAL + PENGUKURAN), signature panel | ✅ |
+| Frontend print view: AirNav logo, manual only, TFP-style footer signature | ✅ |
+| Router: list/detail/print routes untuk Grounding | ✅ |
+| Hapus GroundingCreatePage (dummy) — diganti dengan modal + detail page | ✅ |
+| Hapus field "Dibuat Oleh" dan "Disetujui Oleh" — diganti signature panel | ✅ |
+| Hapus dropdown "Kantor Unit Kerja" — default Cabang Surabaya | ✅ |
+| Work Order, CNSD, TFP tetap berjalan | ✅ |
+| Backend tests pass (2 passed) | ✅ |
+| Frontend build green | ✅ |
+
+**File diubah/ditambah session ini:**
+
+Backend (atoms-maintenance):
+- New: `app/Models/Grounding/GroundingReportRecord.php`, `GroundingReportTechnician.php`, `GroundingReportItem.php`
+- New: `app/Services/Grounding/GroundingReportTemplate.php`, `GroundingReportService.php`
+- New: `app/Http/Controllers/Api/V1/Grounding/GroundingReportController.php`
+- New: `app/Http/Requests/Grounding/{Create,Update,Sign}GroundingReportRequest.php`
+- New: 3 migrations under `database/migrations/2026_05_19_500001-500003_*`
+- Modified: `routes/api.php` (Grounding route group, removed non-existent TFP TX/Tower routes)
+
+Frontend (atoms-maintenance):
+- New: `src/types/grounding.ts`
+- New: `src/services/groundingReportService.ts`
+- New: `src/pages/grounding/GroundingIndexPage.tsx` (rewrite — API-connected, create modal)
+- New: `src/pages/grounding/GroundingReportDetailPage.tsx`
+- New: `src/pages/grounding/GroundingReportPrintView.tsx`
+- New: `src/pages/grounding/components/GroundingReportSignaturePanel.tsx`
+- Modified: `src/router/index.tsx` — register Grounding detail/print routes, remove GroundingCreatePage
+
+Context:
+- Modified: `KIRO_TASK_CONTEXT.md` — Grounding module live
+- Modified: `.agents/session-handoff.md` — current state
+- New: `.agents/instructions/grounding-rules.md`
+- Modified: `BACKEND_CONTEXT.md` — Grounding module section
+- Modified: `.kiro/steering/index.md` — integration status
+
+**Build/test:** `rtk php artisan migrate` ✅ 3 new migrations | `rtk php artisan route:list --path=grounding` ✅ 8 routes | `rtk test php artisan test` ✅ 2 passed | `rtk npm run build` ✅ green
+
+### Next Steps (Prioritas)
+
+1. **End-to-end manual test** — login via rostering, buka Grounding, klik Tambah Laporan, isi nama peralatan + lokasi, verifikasi teknisi TFP, form number GROUNDING-*, checklist VISUAL + PENGUKURAN, sign, print view.
+2. **CNSD modul berikutnya** — Receiver, Glide Path, dll jika ada form referensi resmi.
+3. **TFP modul berikutnya** — form TFP lain jika ada form referensi resmi.
+
+
+## Previous State (per 2026-05-19 — CNSD Transmitter Meter Reading module shipped)
 
 ### Perubahan Terbaru
 
