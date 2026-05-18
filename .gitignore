@@ -1,57 +1,70 @@
-# ─── Project folders (NOT part of this context repo) ─────────────────────────
+# ─── Project folders (NOT part of this context repo) ────────────────────────
 # These are separate git repos with their own remotes.
 atoms-maintenance/
 atoms-rostering/
 
-# ─── Environment & secrets ────────────────────────────────────────────────────
+# ─── Environment & secrets ───────────────────────────────────────────────────
 .env
 .env.*
 !.env.example
 
-# ─── Dependencies ─────────────────────────────────────────────────────────────
+# ─── Dependencies ────────────────────────────────────────────────────────────
 node_modules/
 vendor/
 
-# ─── Build / dist / cache ─────────────────────────────────────────────────────
+# ─── Build / dist / cache ────────────────────────────────────────────────────
 dist/
 build/
+public/build/
+public/hot/
 .cache/
+.vite/
 *.cache
 
-# ─── Logs & storage ───────────────────────────────────────────────────────────
-logs/
-*.log
+# ─── Laravel cache/log/storage ───────────────────────────────────────────────
 storage/logs/
 storage/framework/cache/
 storage/framework/sessions/
 storage/framework/views/
+bootstrap/cache/
 
-# ─── Temp / local artifacts ───────────────────────────────────────────────────
+# ─── Logs ────────────────────────────────────────────────────────────────────
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# ─── Temp / local artifacts ──────────────────────────────────────────────────
 tmp/
 temp/
 *.tmp
+*.temp
 *.bak
+*.local
 
-# ─── Screenshots & local media ────────────────────────────────────────────────
+# ─── Screenshots & local media ───────────────────────────────────────────────
+screenshots/
 *.png
 *.jpg
 *.jpeg
 *.gif
+*.webp
 *.mp4
 *.mov
 
-# ─── OS artifacts ─────────────────────────────────────────────────────────────
+# ─── OS artifacts ────────────────────────────────────────────────────────────
 .DS_Store
 Thumbs.db
 desktop.ini
 
-# ─── IDE ──────────────────────────────────────────────────────────────────────
+# ─── IDE ─────────────────────────────────────────────────────────────────────
 .vscode/
 .idea/
 *.suo
 *.user
 
-# ─── Archives (local backups, not needed in context repo) ─────────────────────
+# ─── Archives (local backups, not needed in context repo) ────────────────────
 *.rar
 *.zip
 *.tar.gz
