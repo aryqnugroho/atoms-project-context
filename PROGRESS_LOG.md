@@ -7,7 +7,31 @@
 - Repo ini hanya menyimpan konteks, aturan agent, progress, dan next tasks.
 - **Semua 4 service sudah berjalan lokal.**
 - **SSO redirect Maintenance sudah diperbaiki dan berfungsi.**
-- **TFP-003 Transmitter TX module sudah live (2026-05-18).**
+- **TFP-005 Tower module sudah live (2026-05-18).**
+
+## Progress Entries
+
+### feat(tfp): TFP-005 Performance Check Gedung Tower (2026-05-18)
+
+**Module baru:** Performance Check Gedung Tower — TFP-005
+
+**Backend:**
+- 4 migrations: `tfp_tower_records`, `_technicians`, `_items`, `_facilities`
+- 4 models, Template (23 parameter, 14 fasilitas), Service, Controller, 3 Requests, Exception
+- 8 routes di `/api/v1/tfp/tower`
+- Form number: `TFP-TOWER-YYMMDD-SEQ`
+
+**Panel kolom (11):** Panel A 10, A 11, Panel ATS (A 13) Input/Output, A 14, A 16, A 17, A 18, A 19, A 20, Panel MILAT RU 12 & 13
+
+**23 Parameter:** L1-N s/d Frekuensi (rows 1-12), Power Factor, Battery (14-17), Mode/Suplai (18-19), KWH Meter (20), Suhu Tower Lt 11, Suhu Ruang RX, Suhu Cabin Tower (21-23)
+
+**14 Fasilitas:** Catu Daya Listrik, Penerangan, Rotating Beacon, Hazard Beacon, AC 22/23 (Split Wall), Pompa Air Lt 5 Tower, Lift, APAR, Atap, Plafond, Dinding, Pintu, Door Lock
+
+**Frontend:** Types, Service, ListPage, DetailPage, PrintView, SignaturePanel, mockData TFP-005 aktif, TFP_ACTIVE_ROUTES, router
+
+**Test:** migrate ✅ 4 tables | route:list ✅ 8 routes | test ✅ 2 passed | build ✅
+
+**Commit:** Backend `aba91d1` ✅ | Frontend `0d99c2b` ✅ | Pushed ✅
 
 ## Progress Entries
 
