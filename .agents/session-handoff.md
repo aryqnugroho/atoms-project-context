@@ -12,7 +12,31 @@
 
 ---
 
-## Current State (per 2026-05-19 — CNSD Glide Path Meter Reading live)
+## Current State (per 2026-05-19 — CNSD Localizer Meter Reading live)
+
+### Perubahan Terbaru
+
+| Fitur | Status |
+|---|---|
+| Card "Localizer" diaktifkan di CNSD index (CNSD-008) | ✅ |
+| Backend: 3 migrations, 3 models, service, template (8 groups + 3 env), controller, requests | ✅ |
+| Form-number: `LOCALIZER-YYMMDD-SEQ` (ILS-LLZ) | ✅ |
+| Template: FRONT PANEL (dual TX1/TX2), CL/DS/CLR/Near Field (dual M1/M2 + IDENT), Power Supply ×3 (single) | ✅ |
+| Dropdown: Normal/Alrm, √/-, local/Remote per nominal | ✅ |
+| Frontend: list, detail/edit (2 tabs), signature panel, print view | ✅ |
+| All hooks at top level — Rules of Hooks compliant | ✅ |
+| Backend tests pass (2 passed) | ✅ |
+| Frontend build green | ✅ |
+
+**Commit hash backend:** `7ca7c31` | **Commit hash frontend:** `879e45c`
+
+### Next Steps
+
+1. End-to-end manual test — klik card Localizer, buat record, verifikasi form number LOCALIZER-*, print view.
+2. CNSD modul berikutnya — T-DME, DVOR, DME, ATC System, ATIS.
+
+
+## Previous State (per 2026-05-19 — CNSD Glide Path Meter Reading live)
 
 ### Perubahan Terbaru
 
