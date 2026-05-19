@@ -12,7 +12,31 @@
 
 ---
 
-## Current State (per 2026-05-19 — Ground Check ADC routing and CNSD roster fix)
+## Current State (per 2026-05-19 — CNSD Glide Path Meter Reading live)
+
+### Perubahan Terbaru
+
+| Fitur | Status |
+|---|---|
+| Card "Glide Path" diaktifkan di CNSD index (CNSD-007) | ✅ |
+| Backend: 3 migrations, 3 models, service, template (8 groups + 3 env), controller, requests | ✅ |
+| Form-number: `GLIDEPATH-YYMMDD-SEQ` (ILS-GP) | ✅ |
+| hasil_layout: 'single' vs 'dual' M1/M2 per group | ✅ |
+| Dropdown: Normal/Alrm, √/–, local/Remote | ✅ |
+| Frontend: list, detail/edit (2 tabs), signature panel, print view | ✅ |
+| All hooks at top level — Rules of Hooks compliant | ✅ |
+| Backend tests pass (2 passed) | ✅ |
+| Frontend build green | ✅ |
+
+**Commit hash backend:** `851ea8f` | **Commit hash frontend:** `52cdcb4`
+
+### Next Steps
+
+1. End-to-end manual test — klik card Glide Path, buat record, verifikasi form number GLIDEPATH-*, print view.
+2. CNSD modul berikutnya — Localizer, T-DME, DVOR, dll.
+
+
+## Previous State (per 2026-05-19 — Ground Check ADC routing and CNSD roster fix)
 
 ### Perubahan Terbaru
 

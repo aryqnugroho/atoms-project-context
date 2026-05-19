@@ -87,7 +87,8 @@ Mock login: `http://localhost:5173/login` dengan email apapun.
 | CNSD-004 | AMSC Meter Reading | AMSC-METER | ✅ Live | `/cnsd/amsc-meter` |
 | CNSD-005 | Transmitter Meter Reading | TRANSMITTER-METER (FORM C-1) | ✅ Live | `/cnsd/transmitter-meter` |
 | CNSD-006 | Receiver Meter Reading | RECEIVER-METER (FORM C-2) | ✅ Live | `/cnsd/receiver-meter` |
-| CNSD-007+ | Glide Path, Localizer, dll | — | 🚧 Coming Soon | — |
+| CNSD-007 | Glide Path Meter Reading | GLIDEPATH-METER (ILS-GP) | ✅ Live | `/cnsd/glidepath-meter` |
+| CNSD-008+ | Localizer, T-DME, DVOR, dll | — | 🚧 Coming Soon | — |
 
 **Pola roster CNSD (berlaku untuk semua modul CNSD):**
 - Ambil tanggal + shift dari request (frontend kirim dari client clock).
@@ -105,6 +106,7 @@ Mock login: `http://localhost:5173/login` dengan email apapun.
 - AMSC: `AMSC-YYMMDD-SEQ` (contoh: `AMSC-260519-001`)
 - Transmitter: `TRANSMITTER-YYMMDD-SEQ` (contoh: `TRANSMITTER-260519-001`)
 - Receiver: `RECEIVER-YYMMDD-SEQ` (contoh: `RECEIVER-260519-001`)
+- Glide Path: `GLIDEPATH-YYMMDD-SEQ` (contoh: `GLIDEPATH-260519-001`)
 
 **Signature CNSD:** seluruh teknisi CNSD shift tersebut menjadi signer (per-row).
 Manager dan supervisor sign di header record (nullable jika tidak ada di roster).
