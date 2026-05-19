@@ -11,7 +11,7 @@
 - **TFP-004 Radar module diperbaiki (2026-05-18) — UPS TOPAZ Input/Output, row helpers, import paths.**
 - **Reporting / Laporan Kerusakan module sudah live (2026-05-19) — Topbar menu Reporting aktif.**
 - **Role-Based Signature Delegation sudah diimplementasikan (2026-05-19) — semua form.**
-- **Logbook TFP backend + list view sudah live (2026-05-19)** — 4 tabel, 67 peralatan seeded, 7 API endpoints, list view dengan modal create.
+- **UI Split-View Form Logbook TFP berhasil dibuat (2026-05-19)** — accordion checklist S/US, timeline catatan, signature Manager Teknik.
 
 ## Progress Entries
 

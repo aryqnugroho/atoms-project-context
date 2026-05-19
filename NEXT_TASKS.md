@@ -23,11 +23,7 @@
 
 ## Priority 3 — Task Berikutnya
 
-- [ ] **Pembuatan UI Form Logbook Split-View (detail/edit page) untuk TFP.**
-  - Tabel status S/US per peralatan per shift (pagi/siang/malam)
-  - Signature panel Manager Teknik
-  - Tampilkan personel on duty dari rostering
-  - Print view logbook harian
+- [ ] **Pembuatan fitur Print View/Export PDF Logbook TFP.**
 
 - [ ] Smoke test end-to-end di browser:
   1. Buka http://localhost:5174
