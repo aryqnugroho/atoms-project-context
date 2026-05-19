@@ -18,6 +18,7 @@ Status: ✅ Three pilot modules live (Phase 4)
 | CNSD-007 | **Glide Path Meter Reading** | **GLIDEPATH-METER (ILS-GP)** | ✅ | ✅ `/cnsd/glidepath-meter` | ✅ |
 | CNSD-008 | **Localizer Meter Reading** | **LOCALIZER-METER (ILS-LLZ)** | ✅ | ✅ `/cnsd/localizer-meter` | ✅ |
 | CNSD-009 | **T-DME Meter Reading** | **TDME-METER (FORM N-5)** | ✅ | ✅ `/cnsd/tdme-meter` | ✅ |
+| CNSD-010 | **DVOR Meter Reading** | **DVOR-METER (FORM N-5)** | ✅ | ✅ `/cnsd/dvor-meter` | ✅ |
 
 All other CNSD cards (Localizer,
 T-DME, DVOR, DME, ATC System, ATIS) remain **Coming Soon** and have no

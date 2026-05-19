@@ -12,7 +12,31 @@
 
 ---
 
-## Current State (per 2026-05-19 — Dashboard Summary Standard + Reporting UI fix)
+## Current State (per 2026-05-19 — CNSD DVOR Meter Reading live)
+
+### Perubahan Terbaru
+
+| Fitur | Status |
+|---|---|
+| Card "DVOR" diaktifkan di CNSD index (CNSD-010) | ✅ |
+| Backend: 3 migrations, 3 models, service, template (7 groups A-G + 3 env), controller, requests | ✅ |
+| Form-number: `DVOR-YYMMDD-SEQ` (FORM N-5) | ✅ |
+| Template: single `hasil_pemeriksaan` column, `limit_value` bukan `nominal` | ✅ |
+| TX1/TX2 mode: dropdown MAIN/STANDBY, default MAIN/STANDBY | ✅ |
+| Print view: Perum LPPNPI header, FAS CNS & OTOMASI, FORM N-5, TX1/TX2 sesuai pilihan user | ✅ |
+| All hooks at top level — Rules of Hooks compliant | ✅ |
+| Backend tests pass (2 passed) | ✅ |
+| Frontend build green | ✅ |
+
+**Commit hash backend:** `ee9eca1` | **Commit hash frontend:** `a67c95d`
+
+### Next Steps
+
+1. End-to-end manual test — klik card DVOR, buat record, verifikasi form number DVOR-*, print view.
+2. CNSD modul berikutnya — DME, ATC System, ATIS.
+
+
+## Previous State (per 2026-05-19 — Dashboard Summary Standard + Reporting UI fix)
 
 ### Perubahan Terbaru
 
