@@ -184,3 +184,68 @@ Why two keys for the same human role (`mt` vs `manager`)? Each module owns its
 own role-map (via `signatureRoleMap()` override on the trait). Work Orders
 historically used `mt`; CNSD readiness uses `manager` for clarity since the
 column on the table is `manager_*`. Both behave identically.
+
+
+---
+
+## Role-Based Signature Delegation Rule (2026-05-19)
+
+Signature validation sekarang menggunakan **role-based delegation** melalui
+`SignatureAuthorizationService` terpusat, bukan strict name matching.
+
+### Aturan Izin Tanda Tangan
+
+| Signer Role      | Slot Manager | Slot Supervisor | Slot Teknisi/Repairer |
+|------------------|--------------|-----------------|-----------------------|
+| Manager Teknik   | ✅ OWN only  | ✅ ALL          | ✅ ALL                |
+| Supervisor       | ❌ NO        | ✅ OWN only     | ✅ ALL                |
+| Teknisi          | ❌ NO        | ❌ NO           | ✅ ALL                |
+
+- **OWN only** = signer's name/id harus cocok dengan target slot.
+- **ALL** = siapapun dengan role tersebut bisa menandatangani slot manapun dari tipe itu.
+
+### Contoh Skenario
+
+1. Manager Teknik "Dudik" bisa sign slot Manager miliknya sendiri.
+2. Manager Teknik "Dudik" bisa sign slot Supervisor "Ichsan" (delegasi).
+3. Manager Teknik "Dudik" bisa sign slot Teknisi "Khoirul" (delegasi).
+4. Supervisor "Ichsan" bisa sign slot Supervisor miliknya sendiri.
+5. Supervisor "Ichsan" bisa sign slot Teknisi "Khoirul" (delegasi).
+6. Supervisor "Ichsan" TIDAK bisa sign slot Manager "Dudik" → 403.
+7. Teknisi "Khoirul" bisa sign slot Teknisi manapun.
+8. Teknisi "Khoirul" TIDAK bisa sign slot Supervisor → 403.
+
+### Audit Trail
+
+Ketika tanda tangan didelegasikan (signer ≠ target), sistem menyimpan:
+- `*_signed_by` (int) — user ID actual signer (sudah ada sebelumnya)
+- `*_signed_by_name` (string, nullable) — nama actual signer
+- `*_signed_by_role` (string, nullable) — role actual signer saat menandatangani
+
+Target name (`manager_name`, `supervisor_name`, `technician_name`) TIDAK diubah.
+Ini memastikan data lama tetap aman dan audit trail jelas.
+
+### Frontend Display
+
+Jika `signed_by_name` berbeda dari target name:
+- UI Panel: tampilkan "Diwakili oleh [signed_by_name]"
+- Print View: tampilkan "Diwakili oleh [signed_by_name]" di bawah signature
+
+### Service Terpusat
+
+`App\Services\SignatureAuthorizationService` — helper statis:
+- `authorize(LocalUser $signer, string $slotType, ?int $targetId, ?string $targetName)`
+- `isDelegated(LocalUser $signer, ?int $targetId, ?string $targetName): bool`
+- `signerCategory(LocalUser $signer): string` — returns 'manager'|'supervisor'|'technician'
+- `slotType(string $roleKey): string` — maps role key to slot type
+
+### Immutability
+
+Tanda tangan tetap **immutable**. Jika slot sudah signed → return `409`.
+Delegasi hanya berlaku untuk slot yang BELUM ditandatangani.
+
+### Backward Compatibility
+
+- Data lama yang sudah signed dengan strict name match tetap valid.
+- Field `*_signed_by_name` dan `*_signed_by_role` nullable — data lama memiliki null.
+- Tidak ada migrasi data lama yang diperlukan.

@@ -12,7 +12,67 @@
 
 ---
 
-## Current State (per 2026-05-19 — Topbar Navigation Refined + Logbook link added)
+## Current State (per 2026-05-19 — Role-Based Signature Delegation implemented)
+
+### Perubahan Terbaru
+
+| Fitur | Status |
+|---|---|
+| Backend: `SignatureAuthorizationService` — centralized role-based delegation logic | ✅ |
+| Backend: `HasSignature` trait updated — uses delegation + records audit trail | ✅ |
+| Backend: Migration adds `*_signed_by_name` + `*_signed_by_role` to all signature tables | ✅ |
+| Backend: `WorkOrderService::assertSignerCanSignRole` — uses delegation service | ✅ |
+| Backend: `GroundingReportService::signRecordRole` — uses delegation service | ✅ |
+| Backend: `GroundingReportService::signTechnicianRow` — delegation for tech rows | ✅ |
+| Backend: `ReportingDamageReportService::signManagerRole` — uses delegation service | ✅ |
+| Backend: `ReportingDamageReportService::signRepairerRow` — delegation for repairer rows | ✅ |
+| Backend: Models updated with audit trail fillables | ✅ |
+| Frontend: `SignatureDisplay` — shows "Diwakili oleh [name]" when delegated | ✅ |
+| Frontend: `GroundingReportSignaturePanel` — role-based button activation | ✅ |
+| Frontend: `ReportingDamageSignaturePanel` — role-based button activation | ✅ |
+| Backend tests pass (2 passed) | ✅ |
+| Frontend build green | ✅ |
+
+### Delegation Rules Summary
+
+| Signer Role | Manager slot | Supervisor slot | Technician slot |
+|---|---|---|---|
+| Manager Teknik | OWN only | ALL | ALL |
+| Supervisor | ❌ | OWN only | ALL |
+| Teknisi | ❌ | ❌ | ALL |
+
+### File diubah session ini
+
+Backend:
+- New: `app/Services/SignatureAuthorizationService.php`
+- New: `database/migrations/2026_05_19_950001_add_signature_delegation_audit_fields.php`
+- Modified: `app/Traits/HasSignature.php` — delegation + audit trail
+- Modified: `app/Services/WorkOrderService.php` — use delegation service
+- Modified: `app/Services/Grounding/GroundingReportService.php` — use delegation service
+- Modified: `app/Services/Reporting/ReportingDamageReportService.php` — use delegation service
+- Modified: `app/Models/Grounding/GroundingReportRecord.php` — audit fillables
+- Modified: `app/Models/Grounding/GroundingReportTechnician.php` — audit fillables
+- Modified: `app/Models/Reporting/ReportingDamageReport.php` — audit fillables
+- Modified: `app/Models/Reporting/ReportingDamageRepairer.php` — audit fillables
+
+Frontend:
+- Modified: `src/components/shared/SignatureDisplay.tsx` — delegatedByName prop
+- Modified: `src/pages/grounding/components/GroundingReportSignaturePanel.tsx` — role-based auth
+- Modified: `src/pages/reporting/components/ReportingDamageSignaturePanel.tsx` — role-based auth
+
+Context:
+- Modified: `.agents/instructions/signature-system-rules.md` — delegation rules section
+- Modified: `.agents/session-handoff.md` — current state
+
+### Next Steps
+
+1. End-to-end test: login as Manager, sign Supervisor/Technician slots (delegation).
+2. Login as Supervisor, verify cannot sign Manager slot (403).
+3. Verify audit trail fields populated correctly.
+4. Update remaining CNSD service sign methods to use delegation (currently they still use the trait which now has delegation built-in).
+
+
+## Previous State (per 2026-05-19 — Topbar Navigation Refined + Logbook link added)
 
 ### Perubahan Terbaru
 
