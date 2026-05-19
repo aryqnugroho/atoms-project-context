@@ -12,39 +12,69 @@
 
 ---
 
-## Current State (per 2026-05-19 — TFP module health check: pending migrations run)
+## Current State (per 2026-05-19 — Ground Check ADC module shipped)
 
 ### Perubahan Terbaru
 
 | Fitur | Status |
 |---|---|
-| 16 pending migrations run (TFP Radar, DVOR, Localizer, Glide Path) | ✅ |
-| All 64 TFP routes verified (8 modules × 8 routes) | ✅ |
+| Ground Check landing page redesigned (5 cards: ADC, VHF, Localizer, Glide Path, DVOR) | ✅ |
+| Card ADC aktif, lainnya Coming Soon | ✅ |
+| Backend module: GroundCheckAdcRecord/Technician/Item + service/template/controller/requests | ✅ |
+| Migrations: `ground_check_adc_records`, `ground_check_adc_technicians`, `ground_check_adc_items` | ✅ |
+| Partial unique index per (form_type, date, shift_type) | ✅ |
+| Item template: 3 sections (TRANSMITTER 2, RECEIVER 2, CONSOLE 20) = 24 items | ✅ |
+| Form-number format: `GC-ADC-YYMMDD-SEQ` (contoh `GC-ADC-260519-001`) | ✅ |
+| Roster integration: TFP personnel (Support), Supervisor TFP, Manager Teknik | ✅ |
+| Signer role dedup applied | ✅ |
+| Signature authorization: name-match, immutable, no delegation, per-technician row | ✅ |
+| Endpoints: 8 routes di bawah `/api/v1/ground-check/adc` | ✅ |
+| Frontend: list page, detail/edit page, signature panel, print view | ✅ |
+| Router: list/detail/print routes untuk Ground Check ADC | ✅ |
+| Print view: AirNav logo, manual only (no auto-print), CNSD/TFP-style footer | ✅ |
+| Metadata: report_month/airport/equipment_name/location autofill, function/data/calibration free text | ✅ |
+| TX1/TX2 columns empty on new records, user fills manually | ✅ |
+| In Tolerance / Out of Tolerance: dropdown √ / kosong | ✅ |
+| Work Order, CNSD, TFP, Grounding tetap berjalan | ✅ |
 | Backend tests pass (2 passed) | ✅ |
 | Frontend build green | ✅ |
-| No code changes needed — only `php artisan migrate` | ✅ |
 
-**Akar masalah:** Developer lain sudah push modul TFP Radar, DVOR, Localizer, dan Glide Path (migrations, models, controllers, services, frontend pages). Setelah pull, migrations belum dijalankan di lokal sehingga table belum ada → SQL error `relation "tfp_radar_records" does not exist`.
+**File dibuat/diubah session ini:**
 
-**Fix:** `rtk php artisan migrate` — 16 pending migrations berhasil dijalankan.
+Backend (atoms-maintenance):
+- New: `app/Models/GroundCheck/GroundCheckAdcRecord.php`, `GroundCheckAdcTechnician.php`, `GroundCheckAdcItem.php`
+- New: `app/Services/GroundCheck/GroundCheckAdcTemplate.php`, `GroundCheckAdcService.php`
+- New: `app/Http/Controllers/Api/V1/GroundCheck/GroundCheckAdcController.php`
+- New: `app/Http/Requests/GroundCheck/{Create,Update,Sign}GroundCheckAdcRequest.php`
+- New: 3 migrations under `database/migrations/2026_05_19_600001-600003_*`
+- Modified: `routes/api.php` (Ground Check ADC route group)
 
-**TFP Module Status (semua OK setelah migrate):**
+Frontend (atoms-maintenance):
+- New: `src/types/groundCheckAdc.ts`
+- New: `src/services/groundCheckAdcService.ts`
+- Rewritten: `src/pages/ground-check/GroundCheckIndexPage.tsx` (card-based, 5 equipment)
+- New: `src/pages/ground-check/GroundCheckAdcListPage.tsx`
+- New: `src/pages/ground-check/GroundCheckAdcDetailPage.tsx`
+- New: `src/pages/ground-check/GroundCheckAdcPrintView.tsx`
+- New: `src/pages/ground-check/components/GroundCheckAdcSignaturePanel.tsx`
+- Modified: `src/router/index.tsx` — register ADC list/detail/print routes
 
-| Module | Route | Table | Controller | Status |
-|---|---|---|---|---|
-| AOB Ground | `/tfp/aob-ground` | `tfp_aob_ground_*` | TfpAobGroundController | ✅ OK |
-| AOB Lt 1 & 2 | `/tfp/aob-lt12` | `tfp_aob_lt12_*` | TfpAobLt12Controller | ✅ OK |
-| Transmitter TX | `/tfp/transmitter-tx` | `tfp_transmitter_tx_*` | TfpTransmitterTxController | ✅ OK |
-| Tower | `/tfp/tower` | `tfp_tower_*` | TfpTowerController | ✅ OK |
-| Radar | `/tfp/radar` | `tfp_radar_*` | TfpRadarController | ✅ OK (was missing table) |
-| DVOR | `/tfp/dvor` | `tfp_dvor_*` | TfpDvorController | ✅ OK (was missing table) |
-| Localizer | `/tfp/localizer` | `tfp_localizer_*` | TfpLocalizerController | ✅ OK (was missing table) |
-| Glide Path | `/tfp/glidepath` | `tfp_glidepath_*` | TfpGlidepathController | ✅ OK (was missing table) |
+Context:
+- New: `.agents/instructions/ground-check-rules.md`
+
+**Build/test:** `rtk php artisan migrate` ✅ 3 new migrations | `rtk php artisan route:list --path=ground-check` ✅ 8 routes | `rtk test php artisan test` ✅ 2 passed | `rtk npm run build` ✅ green
+
+**Commit hashes:**
+- Backend: `5fe4fde` (main)
+- Frontend: `3df1161` (main)
+- Context: `3f20ecc` (main)
 
 ### Next Steps (Prioritas)
 
-1. **End-to-end manual test** — buka semua card TFP, verifikasi list page tampil empty state (bukan SQL error).
-2. **Data lama** — record yang sudah terlanjur punya supervisor di daftar teknisi tidak diubah otomatis (dari fix sebelumnya).
+1. **End-to-end manual test** — login via rostering, buka Ground Check, klik ADC, buat record, verifikasi teknisi TFP, form number GC-ADC-*, metadata autofill, TX1/TX2 kosong, sign, print view.
+2. **Ground Check modul berikutnya** — VHF, Localizer, Glide Path, DVOR jika ada form referensi resmi.
+3. **Update KIRO_TASK_CONTEXT.md dan BACKEND_CONTEXT.md** — tambah section Ground Check ADC.
+
 
 
 ## Previous State (per 2026-05-19 — Signer Role Deduplication fix shipped)
