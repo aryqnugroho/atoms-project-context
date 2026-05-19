@@ -12,7 +12,44 @@
 
 ---
 
-## Current State (per 2026-05-19 — CNSD DVOR Meter Reading live)
+## Current State (per 2026-05-19 — Topbar Navigation Refined + Logbook link added)
+
+### Perubahan Terbaru
+
+| Fitur | Status |
+|---|---|
+| TASK 1: Brand block kiri — fixed min-width (140px/160px), hide subtitle on xs, tighter spacing | ✅ |
+| TASK 2: Menu Logbook ditambahkan ke topbar (icon BookOpen, route /logbooks) | ✅ |
+| TASK 2: LogbookPage placeholder dibuat (bukan ComingSoonPage generic) | ✅ |
+| TASK 3: Nav link font dikecilkan ke 12px, icon 14px, gap 0 — semua 9 menu muat di desktop | ✅ |
+| TASK 4: ShiftBadge dihapus dari topbar — shift info tetap ada di Dashboard page header | ✅ |
+| TASK 5: Shortcut Rostering ditambahkan (ExternalLink icon, VITE_ROSTERING_FRONTEND_URL) | ✅ |
+| TASK 5: Shortcut Rostering juga ada di mobile drawer footer | ✅ |
+| TASK 6: Auth/SSO tidak diubah | ✅ |
+| Frontend build green (no TS errors) | ✅ |
+
+**Topbar kanan sekarang berisi:** Shortcut Rostering | Notification | User profile | Logout
+
+**ShiftBadge dihapus dari topbar** — shift info tetap di Dashboard page header.
+
+**VITE_ROSTERING_FRONTEND_URL** sudah ada di `.env` (http://localhost:5174).
+
+**Urutan menu:** Dashboard | Work Order | CNSD | TFP | Ground Check | Grounding | Reporting | Logbook
+
+### File diubah session ini
+
+Frontend (atoms-maintenance):
+- Modified: `src/components/layout/Topbar.tsx`
+- New: `src/pages/logbook/LogbookPage.tsx`
+- Modified: `src/router/index.tsx` — /logbooks → LogbookPage
+
+### Next Steps
+
+1. End-to-end manual test topbar.
+2. Logbook fitur jika ada form referensi resmi.
+
+
+## Previous State (per 2026-05-19 — CNSD DVOR Meter Reading live)
 
 ### Perubahan Terbaru
 

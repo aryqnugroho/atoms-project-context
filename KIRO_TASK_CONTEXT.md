@@ -40,6 +40,23 @@
 
 Standar ini berlaku untuk semua card summary di Dashboard:
 
+---
+
+## 2c. Topbar Navigation Standard
+
+- Brand kiri harus compact dan konsisten — `min-w-[140px]`, logo + teks align vertikal.
+- Subtitle "ATOMS-Maintenance" disembunyikan pada layar xs (`hidden sm:block`).
+- Menu utama (urutan): Dashboard, Work Order, CNSD, TFP, Ground Check, Grounding, Reporting, Logbook.
+- Nav link font 12px, icon 14px, gap 0 — semua menu muat di desktop tanpa overflow.
+- Topbar **tidak boleh** menampilkan ShiftBadge — shift info ada di Dashboard/page header.
+- Topbar kanan berisi: Shortcut Rostering, Notification, User profile, Logout.
+- Shortcut Rostering memakai `VITE_ROSTERING_FRONTEND_URL` (env sudah ada di `.env`).
+- Shortcut Rostering buka di tab baru (`target="_blank" rel="noopener noreferrer"`).
+- Jangan ubah SSO/auth saat melakukan topbar refinement.
+- Mobile drawer: nav links + Rostering shortcut + logout di footer.
+
+---
+
 - Dashboard hanya menampilkan ringkasan cepat, bukan list panjang.
 - Setiap card summary **maksimal 3 data terbaru**.
 - Data prioritas: **ongoing** dan **on_hold**. Completed tidak ditampilkan kecuali tidak ada data aktif.
