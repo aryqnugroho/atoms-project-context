@@ -12,7 +12,42 @@
 
 ---
 
-## Current State (per 2026-05-19 — Signer Role Deduplication fix shipped)
+## Current State (per 2026-05-19 — TFP module health check: pending migrations run)
+
+### Perubahan Terbaru
+
+| Fitur | Status |
+|---|---|
+| 16 pending migrations run (TFP Radar, DVOR, Localizer, Glide Path) | ✅ |
+| All 64 TFP routes verified (8 modules × 8 routes) | ✅ |
+| Backend tests pass (2 passed) | ✅ |
+| Frontend build green | ✅ |
+| No code changes needed — only `php artisan migrate` | ✅ |
+
+**Akar masalah:** Developer lain sudah push modul TFP Radar, DVOR, Localizer, dan Glide Path (migrations, models, controllers, services, frontend pages). Setelah pull, migrations belum dijalankan di lokal sehingga table belum ada → SQL error `relation "tfp_radar_records" does not exist`.
+
+**Fix:** `rtk php artisan migrate` — 16 pending migrations berhasil dijalankan.
+
+**TFP Module Status (semua OK setelah migrate):**
+
+| Module | Route | Table | Controller | Status |
+|---|---|---|---|---|
+| AOB Ground | `/tfp/aob-ground` | `tfp_aob_ground_*` | TfpAobGroundController | ✅ OK |
+| AOB Lt 1 & 2 | `/tfp/aob-lt12` | `tfp_aob_lt12_*` | TfpAobLt12Controller | ✅ OK |
+| Transmitter TX | `/tfp/transmitter-tx` | `tfp_transmitter_tx_*` | TfpTransmitterTxController | ✅ OK |
+| Tower | `/tfp/tower` | `tfp_tower_*` | TfpTowerController | ✅ OK |
+| Radar | `/tfp/radar` | `tfp_radar_*` | TfpRadarController | ✅ OK (was missing table) |
+| DVOR | `/tfp/dvor` | `tfp_dvor_*` | TfpDvorController | ✅ OK (was missing table) |
+| Localizer | `/tfp/localizer` | `tfp_localizer_*` | TfpLocalizerController | ✅ OK (was missing table) |
+| Glide Path | `/tfp/glidepath` | `tfp_glidepath_*` | TfpGlidepathController | ✅ OK (was missing table) |
+
+### Next Steps (Prioritas)
+
+1. **End-to-end manual test** — buka semua card TFP, verifikasi list page tampil empty state (bukan SQL error).
+2. **Data lama** — record yang sudah terlanjur punya supervisor di daftar teknisi tidak diubah otomatis (dari fix sebelumnya).
+
+
+## Previous State (per 2026-05-19 — Signer Role Deduplication fix shipped)
 
 ### Perubahan Terbaru
 
