@@ -12,8 +12,50 @@
 - **Reporting / Laporan Kerusakan module sudah live (2026-05-19) — Topbar menu Reporting aktif.**
 - **Role-Based Signature Delegation sudah diimplementasikan (2026-05-19) — semua form.**
 - **UI Split-View Form Logbook TFP berhasil dibuat (2026-05-19)** — accordion checklist S/US, timeline catatan, signature Manager Teknik.
+- **Ground Check ADC form interaktif selesai (2026-05-20)** — dropdown (Berfungsi/Baik/Clear), toggle ✓ untuk In/Out Tolerance, photo upload lampiran, print view identik PDF resmi.
 
 ## Progress Entries
+
+### feat(ground-check): Form ADC interaktif + foto dokumentasi + print view identik PDF (2026-05-20)
+
+**Konteks:** Form Ground Check ADC sebelumnya statis (text input bebas + dropdown sederhana "—/√"). Direfaktor menjadi form entri data digital interaktif yang siap dipakai teknisi.
+
+**Backend:**
+- Migration `add_input_type_to_ground_check_adc_items` — menambah kolom `input_type` ke `ground_check_adc_items` (numeric / dropdown_function / dropdown_quality / dropdown_clarity / text / header). Existing rows di-backfill via heuristik parameter_name + calibration_result.
+- Migration baru `ground_check_adc_photos` — tabel lampiran foto (path di disk `public`, caption, uploaded_by audit).
+- Model `GroundCheckAdcPhoto` dengan accessor `url` (otomatis dari Storage::disk('public')->url()).
+- `GroundCheckAdcTemplate` diupdate dengan field `input_type` per item:
+  - Power, Modulation (Tx), Squelch On → `numeric`
+  - Audio Distorsi → `text`
+  - Console items (Berfungsi) → `dropdown_function`
+  - Interconnection (Baik) → `dropdown_quality`
+  - Interference (Clear) → `dropdown_clarity`
+- `GroundCheckAdcService` ditambah `addPhoto`, `updatePhotoCaption`, `deletePhoto` (file disimpan ke `ground-check/adc/{record_id}/...`).
+- 3 endpoint baru: `POST/PUT/DELETE /api/v1/ground-check/adc/{id}/photos[/{photoId}]`. Detail response sekarang juga membawa array `photos`.
+
+**Frontend:**
+- `GroundCheckAdcDetailPage` direfaktor:
+  - Kolom **Hasil PD** rendering widget per input_type (numeric / dropdown / text).
+  - Kolom **In Tolerance** dan **Out of Tolerance** sekarang tombol Toggle 1-klik bergaya Logbook — emerald untuk in-tol (✓), red untuk out-of-tol (✓), strip "—" saat kosong.
+  - Tema selaras dengan halaman lain (card putih, rounded-2xl, soft shadow), tabel horizontal-scroll dengan header sticky color gradient.
+  - **Section baru Foto Dokumentasi** di bawah tabel: grid 2/3/4 kolom responsif, hover delete button, validasi client-side (image/* max 8 MB).
+- `GroundCheckAdcPrintView` ditulis ulang penuh dengan layout A4 landscape persis seperti PDF resmi:
+  - Title block "PENGUJIAN BERKALA DI DARAT / PERALATAN FASLEKTRIK PENERBANGAN".
+  - Metadata 7 baris (LAPORAN BULAN, BANDARA, NAMA PERALATAN, LOKASI, FUNGSI, DATA TEKNIS, KALIBRASI TERAKHIR).
+  - Tabel utama 11 kolom: NO | PARAMETER | HASIL PENGUKURAN SETELAH KALIBRASI | TOLERANSI | TX1 (Hasil PD, In Tol, Out Tol) | TX2 (Hasil PD, In Tol, Out Tol) | KETERANGAN. Centang ditampilkan sebagai `√` (Times New Roman) sesuai gaya tulis tangan.
+  - Footer: TEKNISI PELAKSANA (6 slot baris dengan kolom tanda tangan masing-masing) + SUPERVISOR & MANAGER TEKNIK (rowspan, render image base64 PNG).
+  - **Halaman 2 LAMPIRAN**: tabel 2 kolom foto + caption uppercase, otomatis page-break setelah halaman 1.
+- Frontend service: `uploadPhoto`, `updatePhotoCaption`, `deletePhoto`.
+- Types: tambah `GroundCheckAdcInputType` + interface `GroundCheckAdcPhoto`, plus `photos[]` di detail.
+
+**Validasi:**
+- `rtk php artisan migrate` ✅ 2 migrations applied
+- `rtk php artisan route:list --path=ground-check/adc` → 11 routes (sebelumnya 8)
+- `rtk npm run build` ✅ hijau (12.12s)
+
+**Catatan deploy:** backend deploy duluan (endpoint baru + kolom `photos` di detail). Frontend gracefully handle photos kosong saat backend lama.
+
+---
 
 ### feat(logbook): Landing Page Logbook dengan CNSD & TFP cards (2026-05-19)
 
