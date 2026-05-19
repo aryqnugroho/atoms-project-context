@@ -36,6 +36,29 @@
 
 ---
 
+## 2b. Dashboard Summary Standard
+
+Standar ini berlaku untuk semua card summary di Dashboard:
+
+- Dashboard hanya menampilkan ringkasan cepat, bukan list panjang.
+- Setiap card summary **maksimal 3 data terbaru**.
+- Data prioritas: **ongoing** dan **on_hold**. Completed tidak ditampilkan kecuali tidak ada data aktif.
+- Setiap card summary **wajib punya tombol/link "Lihat semua"** ke page modul terkait.
+- Dashboard **tidak boleh memakai data dummy** jika modul backend sudah tersedia.
+- Dashboard **tidak boleh menampilkan SQL/API error mentah** ke user — tampilkan empty state rapi.
+
+**Work Order Aktif card:**
+- Menampilkan no WO, deskripsi, divisi/fasilitas, shift, creator (dibuat oleh), status.
+- Max 3 item. Link "Lihat semua" ke `/work-orders`.
+
+**Laporan Kerusakan Terbaru card** (menggantikan "Peralatan Trouble"):
+- Data dari Reporting API (`/api/v1/reporting/damage-reports`).
+- Menampilkan nomor surat, nama peralatan, fasilitas, kategori kerusakan, kode hambatan, manager teknik, status.
+- Max 3 item. Link "Lihat semua" ke `/reporting`.
+- Prioritas ongoing/on_hold; fallback ke 3 terbaru dari semua status jika tidak ada aktif.
+
+---
+
 ## 3. Auth & SSO Current State
 
 Flow SSO yang sudah berjalan:

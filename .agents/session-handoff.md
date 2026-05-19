@@ -12,7 +12,45 @@
 
 ---
 
-## Current State (per 2026-05-19 — CNSD T-DME Meter Reading live)
+## Current State (per 2026-05-19 — Dashboard Summary Standard + Reporting UI fix)
+
+### Perubahan Terbaru
+
+| Fitur | Status |
+|---|---|
+| TASK 1: FormSection bullet/step Reporting diubah dari ungu ke navy (#222E6A) | ✅ |
+| TASK 1: Background section header dari `purple-50` ke `slate-50` | ✅ |
+| TASK 1: Bullet size dari h-7 w-7 ke h-6 w-6 (lebih compact) | ✅ |
+| TASK 2: Work Order Aktif card — max 3 item, prioritas ongoing/on_hold | ✅ |
+| TASK 2: Work Order item menampilkan no WO, deskripsi, divisi, shift, creator, status | ✅ |
+| TASK 2: Backend WorkOrderController expose `creator.name` di response | ✅ |
+| TASK 2: Frontend WorkOrder type tambah `creator` field | ✅ |
+| TASK 3: Card "Peralatan Trouble" diganti "Laporan Kerusakan Terbaru" | ✅ |
+| TASK 3: Data dari Reporting API (bukan mock) | ✅ |
+| TASK 3: Laporan Kerusakan item menampilkan nomor surat, nama peralatan, fasilitas, kategori, kode hambatan, manager, status | ✅ |
+| TASK 3: Prioritas ongoing/on_hold, fallback ke semua jika kosong | ✅ |
+| TASK 3: Link "Lihat semua" ke /reporting | ✅ |
+| TASK 4: Dokumentasi Dashboard Summary Standard ditambahkan | ✅ |
+| Backend tests pass (2 passed) | ✅ |
+| Frontend build green (no TS errors) | ✅ |
+
+### File diubah session ini
+
+Backend (atoms-maintenance):
+- Modified: `app/Http/Controllers/Api/V1/WorkOrder/WorkOrderController.php` — expose `creator.name` di transformWorkOrder
+
+Frontend (atoms-maintenance):
+- Modified: `src/types/index.ts` — tambah `creator?: { id: number; name: string } | null` ke WorkOrder type
+- Modified: `src/pages/dashboard/DashboardPage.tsx` — Work Order max 3 + richer display, Laporan Kerusakan Terbaru card, hapus Peralatan Trouble mock
+- Modified: `src/pages/reporting/ReportingDamageFormPage.tsx` — FormSection bullet navy (#222E6A), background slate-50
+
+### Next Steps (Prioritas)
+
+1. **End-to-end manual test** — login, buka Dashboard, verifikasi Work Order Aktif max 3 dengan info lengkap, verifikasi Laporan Kerusakan Terbaru dari API, verifikasi form Reporting bullet navy.
+2. **CNSD modul berikutnya** — DVOR, DME, ATC System, ATIS.
+
+
+## Previous State (per 2026-05-19 — CNSD T-DME Meter Reading live)
 
 ### Perubahan Terbaru
 
