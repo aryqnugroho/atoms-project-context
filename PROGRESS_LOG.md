@@ -10,6 +10,21 @@
 - **TFP-005 Tower module sudah live (2026-05-18).**
 - **TFP-004 Radar module diperbaiki (2026-05-18) — UPS TOPAZ Input/Output, row helpers, import paths.**
 - **Reporting / Laporan Kerusakan module sudah live (2026-05-19) — Topbar menu Reporting aktif.**
+- **Role-Based Signature Delegation sudah diimplementasikan (2026-05-19) — semua form.**
+- **Landing Page Logbook beserta kerangka routing berhasil dibuat (2026-05-19).**
+
+## Progress Entries
+
+### feat(logbook): Landing Page Logbook dengan CNSD & TFP cards (2026-05-19)
+
+**Perubahan:**
+- `LogbookPage.tsx` dirombak menjadi landing page navigasi dengan 2 card
+- Card 1: "Logbook Fasilitas CNSD" → `/logbooks/cnsd`
+- Card 2: "Logbook Fasilitas Penunjang (TFP)" → `/logbooks/tfp`
+- `LogbookCnsd.tsx` dan `LogbookTfp.tsx` dibuat sebagai placeholder
+- Router diupdate dengan routes baru
+- Desain card mengikuti pola CnsdIndexPage (border tipis, rounded, soft shadow, chevron kanan)
+- Build green ✅
 
 ## Progress Entries
 

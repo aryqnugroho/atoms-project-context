@@ -18,8 +18,16 @@
 - ✅ Fix: card Maintenance di atoms-rostering sekarang redirect ke atoms-maintenance dengan SSO token.
 - ✅ **TFP-003 Transmitter TX module live** — card aktif, form create/edit/detail/print/sign berjalan.
 - ✅ **Reporting / Laporan Kerusakan module live (2026-05-19)** — Topbar menu Reporting, format LTK-YYMMDD-SEQ, manager + pelaksana dipilih manual.
+- ✅ **Role-Based Signature Delegation (2026-05-19)** — semua 22 signature panel + 19 backend service diupdate.
+- ✅ **Landing Page Logbook (2026-05-19)** — 2 card navigasi CNSD & TFP, routing setup.
 
-## Priority 3 — Perlu Manual Test
+## Priority 3 — Task Berikutnya
+
+- [ ] **Merancang UI Form Logbook (Dynamic Timeline) dan Migration Database Laravel untuk TFP & CNSD.**
+  - Desain form logbook dengan timeline entry harian
+  - Migration tabel logbook_entries (cnsd + tfp)
+  - Backend: model, service, controller, routes
+  - Frontend: form input, list view, print view
 
 - [ ] Smoke test end-to-end di browser:
   1. Buka http://localhost:5174

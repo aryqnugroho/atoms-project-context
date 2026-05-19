@@ -12,7 +12,36 @@
 
 ---
 
-## Current State (per 2026-05-19 — Role-Based Signature Delegation implemented)
+## Current State (per 2026-05-19 — Logbook Landing Page created)
+
+### Perubahan Terbaru
+
+| Fitur | Status |
+|---|---|
+| LogbookPage dirombak menjadi landing page dengan 2 card navigasi | ✅ |
+| Card 1: "Logbook Fasilitas CNSD" → /logbooks/cnsd | ✅ |
+| Card 2: "Logbook Fasilitas Penunjang (TFP)" → /logbooks/tfp | ✅ |
+| LogbookCnsd.tsx placeholder dibuat | ✅ |
+| LogbookTfp.tsx placeholder dibuat | ✅ |
+| Router diupdate: /logbooks/cnsd dan /logbooks/tfp terdaftar | ✅ |
+| Desain card mengikuti pola CnsdIndexPage (border, rounded, shadow, chevron) | ✅ |
+| Frontend build green | ✅ |
+
+### File diubah session ini
+
+Frontend (atoms-maintenance):
+- Modified: `src/pages/logbook/LogbookPage.tsx` — landing page dengan 2 card
+- New: `src/pages/logbook/LogbookCnsd.tsx` — placeholder CNSD
+- New: `src/pages/logbook/LogbookTfp.tsx` — placeholder TFP
+- Modified: `src/router/index.tsx` — tambah routes /logbooks/cnsd dan /logbooks/tfp
+
+### Next Steps
+
+1. Merancang UI Form Logbook (Dynamic Timeline) dan Migration Database Laravel untuk TFP & CNSD.
+2. Implementasi backend Logbook (tabel, model, service, controller, routes).
+
+
+## Previous State (per 2026-05-19 — Role-Based Signature Delegation implemented)
 
 ### Perubahan Terbaru
 
