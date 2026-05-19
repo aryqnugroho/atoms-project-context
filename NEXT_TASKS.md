@@ -23,11 +23,11 @@
 
 ## Priority 3 — Task Berikutnya
 
-- [ ] **Merancang UI Form Logbook (Dynamic Timeline) dan Migration Database Laravel untuk TFP & CNSD.**
-  - Desain form logbook dengan timeline entry harian
-  - Migration tabel logbook_entries (cnsd + tfp)
-  - Backend: model, service, controller, routes
-  - Frontend: form input, list view, print view
+- [ ] **Pembuatan UI Form Logbook Split-View (detail/edit page) untuk TFP.**
+  - Tabel status S/US per peralatan per shift (pagi/siang/malam)
+  - Signature panel Manager Teknik
+  - Tampilkan personel on duty dari rostering
+  - Print view logbook harian
 
 - [ ] Smoke test end-to-end di browser:
   1. Buka http://localhost:5174

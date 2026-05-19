@@ -12,7 +12,43 @@
 
 ---
 
-## Current State (per 2026-05-19 — Logbook Landing Page created)
+## Current State (per 2026-05-19 — Logbook TFP backend + list view)
+
+### Perubahan Terbaru
+
+| Fitur | Status |
+|---|---|
+| Migration: `tfp_equipments`, `logbook_tfps`, `logbook_tfp_items`, `logbook_tfp_notes` | ✅ |
+| TfpEquipmentSeeder: 67 peralatan dari form fisik (4 kategori) | ✅ |
+| Models: TfpEquipment, LogbookTfp, LogbookTfpItem, LogbookTfpNote | ✅ |
+| LogbookTfpService: create, list, detail, sign, delete + personnel on duty | ✅ |
+| LogbookTfpController: 7 endpoints | ✅ |
+| Routes: /api/v1/logbook/tfp (7 routes) | ✅ |
+| Frontend: types/logbookTfp.ts + logbookTfpService.ts | ✅ |
+| Frontend: LogbookTfp.tsx → List View dengan filter tahun/TTD + modal create | ✅ |
+| Router: /logbooks/tfp/:id placeholder route | ✅ |
+| Backend tests pass (2 passed) | ✅ |
+| Frontend build green | ✅ |
+
+### Struktur Data
+
+- `tfp_equipments`: 67 peralatan, 4 kategori (POWER CNS & OTOMASI, UPS & GENSET, MEKANIK, ELEKTRONIKA & IT, PENERANGAN)
+- `logbook_tfps`: 1 record per tanggal (unique), Manager TTD
+- `logbook_tfp_items`: status S/US per shift per peralatan
+- `logbook_tfp_notes`: catatan timeline per shift
+
+### Personnel On Duty
+
+GET /api/v1/logbook/tfp/{id} menyertakan `personnel_on_duty` dari rostering untuk semua 3 shift (pagi/siang/malam) berdasarkan tanggal logbook. Teknisi TFP (employee_type='Support') + Supervisor TFP + Manager Teknik.
+
+### Next Steps
+
+1. Buat UI Form Logbook Split-View (detail/edit page) untuk mengisi status S/US per peralatan per shift.
+2. Tambahkan signature panel Manager Teknik di detail page.
+3. Logbook CNSD (struktur serupa).
+
+
+## Previous State (per 2026-05-19 — Logbook Landing Page created)
 
 ### Perubahan Terbaru
 
