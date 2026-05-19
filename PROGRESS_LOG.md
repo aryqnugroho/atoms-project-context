@@ -9,8 +9,46 @@
 - **SSO redirect Maintenance sudah diperbaiki dan berfungsi.**
 - **TFP-005 Tower module sudah live (2026-05-18).**
 - **TFP-004 Radar module diperbaiki (2026-05-18) — UPS TOPAZ Input/Output, row helpers, import paths.**
+- **Reporting / Laporan Kerusakan module sudah live (2026-05-19) — Topbar menu Reporting aktif.**
 
 ## Progress Entries
+
+### feat(reporting): Reporting / Laporan Kerusakan module (2026-05-19)
+
+**Module baru:** Reporting (Laporan Kerusakan) — first Reporting module.
+
+**Karakteristik unik:** Tidak menggunakan rostering shift personnel — Manager
+Teknik dan Pelaksana Perbaikan dipilih manual dari `local_users`. Pelaksana
+boleh campur Teknisi CNSD + Teknisi TFP + Supervisor CNSD + Supervisor TFP.
+
+**Backend:**
+- 2 migrations: `reporting_damage_reports`, `reporting_damage_repairers`
+- 2 models: `ReportingDamageReport` (HasSignature + SoftDeletes), `ReportingDamageRepairer`
+- 2 services: `ReportingDamageReportService`, `ReportingPersonSelectorService`
+- 2 controllers: `ReportingDamageReportController`, `ReportingPersonController`
+- 3 requests: Create/Update/Sign with conditional `obstacle_code = AL` validation
+- 8 routes di `/api/v1/reporting/`
+- Format nomor: `LTK-YYMMDD-SEQ` (contoh: `LTK-260519-001`)
+- Status: `ongoing` | `on_hold` | `completed` (derived from signatures)
+- Kode hambatan 9 codes (AU, PK, TT, SC, TR, ST, PC, AL, TH)
+- Signature: manager + per-row repairer, immutable, tolerant name match
+
+**Frontend:**
+- types/reporting.ts, services/reportingDamageReportService.ts
+- ReportingListPage (search, filter date/year/category/obstacle/status, table aksi)
+- ReportingDamageFormPage (6 sections, dynamic repairer list, auto-calc downtime)
+- ReportingDamageSignaturePanel (manager + per-row repairer dengan name match)
+- ReportingDamagePrintView (AirNav logo, tabel 13 baris, kode hambatan box, footer Manager + Pelaksana)
+- Topbar: tambah menu Reporting (ClipboardList icon)
+- Router: routes /reporting, /reporting/damage-reports/new, /:id, /:id/print
+- Dashboard quickNav Reporting → /reporting (was /reports placeholder)
+- Backward-compat: /reports redirects → /reporting
+
+**Test:** migrate ✅ 2 tables | route:list ✅ 8 routes (158 total) | test ✅ 2 passed | build ✅ green
+
+**Commits:** Backend (TBD) | Frontend (TBD) | Context (TBD) — pending push.
+
+---
 
 ### feat(tfp): TFP-005 Performance Check Gedung Tower (2026-05-18)
 

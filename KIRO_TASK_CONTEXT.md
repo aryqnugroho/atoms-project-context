@@ -200,6 +200,34 @@ Setiap task selesai wajib update:
 
 ---
 
+## 9b. Reporting Current State
+
+**Laporan Kerusakan — ✅ Live (2026-05-19)**
+
+| Modul | Form | Status | Route |
+|---|---|---|---|
+| Laporan Kerusakan (Damage Report) | LTK | ✅ Live | `/reporting` |
+
+**Karakteristik unik Reporting:**
+- ❌ **Tidak menggunakan roster otomatis** — tidak ada konsep shift.
+- Manager Teknik dipilih **manual** dari role `Manager Teknik` di `local_users`.
+- Pelaksana Perbaikan dipilih **manual**, boleh campur Teknisi CNSD/TFP + Supervisor CNSD/TFP.
+- Source personel: `local_users` cache (tidak query rostering shift).
+
+**Format nomor surat:**
+- LTK: `LTK-YYMMDD-SEQ` (contoh: `LTK-260519-001`)
+
+**Endpoint backend:**
+- `GET/POST/PUT/DELETE /api/v1/reporting/damage-reports[...]`
+- `POST /api/v1/reporting/damage-reports/{id}/sign`
+- `GET /api/v1/reporting/personnel?scope=manager|repairer&search=&division=`
+
+**Topbar:** Reporting menu visible untuk semua role authenticated.
+
+**Lihat:** `.agents/instructions/reporting-rules.md` untuk detail lengkap.
+
+---
+
 ## 10. How to Use This Context
 
 Template prompt pendek untuk task berikutnya:

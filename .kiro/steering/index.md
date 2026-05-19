@@ -104,6 +104,15 @@ description: Root-level steering for the ATOMS PROJECT workspace. Auto-loaded fo
 | - Frontend: list page, detail/edit, signature panel, print view | ✅ Implemented |
 | - Card AOB Lantai 1 & 2 di TFP index sekarang aktif (TFP-002) | ✅ Implemented |
 | Other TFP cards (Transmitter, Radar, Tower, VOR, Localizer, Glide Path) | 🚧 Coming Soon |
+| **Reporting / Laporan Kerusakan (Phase 6 Module 1)** | ✅ **Live (2026-05-19)** |
+| - Backend: 2 migrations, 2 models, service, person selector service, controllers (2), requests (3) | ✅ Implemented |
+| - Form-number `LTK-YYMMDD-SEQ` | ✅ Implemented |
+| - Topbar menu Reporting (icon ClipboardList) di antara Grounding & User Management | ✅ Implemented |
+| - Manager Teknik dipilih manual dari role Manager Teknik (no roster) | ✅ Implemented |
+| - Pelaksana dipilih manual, campur Teknisi/Supervisor CNSD/TFP (no roster) | ✅ Implemented |
+| - 9 Kode Hambatan (AU/PK/TT/SC/TR/ST/PC/AL/TH); AL → Alasan Lain wajib | ✅ Implemented |
+| - Frontend: list page, form page (6 sections, dynamic repairers), signature panel, print view | ✅ Implemented |
+| - Print view: AirNav logo, judul LAPORAN KERUSAKAN, tabel 13 baris, manual only | ✅ Implemented |
 
 ## Hard Constraints (Jangan Dilanggar)
 

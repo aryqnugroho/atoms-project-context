@@ -17,6 +17,7 @@
 - ✅ DEV_MOCK_AUTH=false (SSO mode aktif).
 - ✅ Fix: card Maintenance di atoms-rostering sekarang redirect ke atoms-maintenance dengan SSO token.
 - ✅ **TFP-003 Transmitter TX module live** — card aktif, form create/edit/detail/print/sign berjalan.
+- ✅ **Reporting / Laporan Kerusakan module live (2026-05-19)** — Topbar menu Reporting, format LTK-YYMMDD-SEQ, manager + pelaksana dipilih manual.
 
 ## Priority 3 — Perlu Manual Test
 
@@ -34,6 +35,20 @@
 - [ ] Verifikasi TFP (AOB Ground, AOB Lt12) tidak rusak.
 - [ ] Verifikasi Signature immutable dan tidak bisa diwakilkan.
 - [ ] Verifikasi Print tidak auto-print.
+- [ ] Reporting end-to-end test:
+  1. Klik menu Reporting di topbar.
+  2. Klik Tambah Laporan.
+  3. Isi form Section 1-5 (Data Laporan, Detail Kerusakan, Tindakan Perbaikan, Waktu Kerusakan, Kode Hambatan).
+  4. Pilih Manager Teknik dari dropdown manager.
+  5. Tambahkan beberapa pelaksana dari personel CNSD/TFP (campur).
+  6. Pilih kode hambatan AL → pastikan field Alasan Lain muncul dan wajib.
+  7. Simpan laporan, verifikasi nomor surat format LTK-YYMMDD-001.
+  8. Coba sign manager dengan user yang bukan manager → harus 403.
+  9. Sign dengan user yang sesuai jika tersedia.
+  10. Buka print view, pastikan tidak auto muncul.
+  11. Verifikasi logo AirNav tampil di header.
+  12. Pastikan judul: LAPORAN KERUSAKAN.
+  13. Klik Print PDF, dialog print muncul sekali.
 
 ## Priority 4 — Opsional / Next Development
 

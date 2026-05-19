@@ -12,7 +12,87 @@
 
 ---
 
-## Current State (per 2026-05-19 — CNSD Localizer Meter Reading live)
+## Current State (per 2026-05-19 — Reporting / Laporan Kerusakan module shipped)
+
+### Perubahan Terbaru
+
+| Fitur | Status |
+|---|---|
+| Backend: ReportingDamageReport + ReportingDamageRepairer models, migrations | ✅ |
+| Backend: ReportingDamageReportService (CRUD, generate LTK number, sign manager + repairer) | ✅ |
+| Backend: ReportingPersonSelectorService (manager/repairer dropdown dari local_users) | ✅ |
+| Backend: ReportingDamageReportController + ReportingPersonController | ✅ |
+| Backend: Create/Update/Sign requests dengan validasi obstacle_code AL conditional | ✅ |
+| Backend: 8 routes di bawah /api/v1/reporting/ | ✅ |
+| Backend: Format nomor surat LTK-YYMMDD-SEQ (reset per tanggal) | ✅ |
+| Backend: Signature authorization name-match + role check + immutable | ✅ |
+| Backend: Tidak menggunakan rostering shift sama sekali | ✅ |
+| Backend tests pass (2 passed) | ✅ |
+| Backend route:list menampilkan 158 routes (8 reporting baru) | ✅ |
+| Frontend: types/reporting.ts + reportingDamageReportService.ts | ✅ |
+| Frontend: ReportingListPage (search, filter date/year/category/obstacle/status, table aksi) | ✅ |
+| Frontend: ReportingDamageFormPage (6 sections, dynamic repairer list, auto-calc downtime) | ✅ |
+| Frontend: ReportingDamageSignaturePanel (manager + per-row repairer) | ✅ |
+| Frontend: ReportingDamagePrintView (logo AirNav, tabel 13 baris, kode hambatan box, footer signature) | ✅ |
+| Frontend: Topbar menu Reporting (icon ClipboardList) | ✅ |
+| Frontend: Router routes /reporting, /reporting/damage-reports/new, /:id, /:id/print | ✅ |
+| Frontend: Dashboard quickNav Reporting points to /reporting | ✅ |
+| Frontend: Backward-compat /reports → /reporting redirect | ✅ |
+| Frontend build green (no TS errors) | ✅ |
+
+### Karakteristik Reporting (Berbeda dari modul lain)
+
+- ❌ **Tidak pakai roster otomatis** — tidak ada konsep shift di Reporting.
+- Manager Teknik dipilih **manual** dari role `Manager Teknik` (bukan dari shift roster).
+- Pelaksana dipilih **manual** dan boleh **campur** Teknisi CNSD + Teknisi TFP + Supervisor CNSD + Supervisor TFP.
+- Source personel: `local_users` aktif (tidak query rostering DB).
+- Format nomor: `LTK-YYMMDD-SEQ` (Laporan Teknik Kerusakan).
+- Kode hambatan 9 pilihan (AU, PK, TT, SC, TR, ST, PC, AL, TH); jika AL maka Alasan Lain wajib.
+- Print view manual only — logo AirNav, judul **LAPORAN KERUSAKAN**, tabel 13 baris, kode hambatan box, footer Manager + Pelaksana table.
+
+### File diubah/ditambah session ini
+
+Backend (atoms-maintenance):
+- New: `app/Models/Reporting/ReportingDamageReport.php`, `ReportingDamageRepairer.php`
+- New: `app/Services/Reporting/ReportingDamageReportService.php`, `ReportingPersonSelectorService.php`
+- New: `app/Http/Controllers/Api/V1/Reporting/ReportingDamageReportController.php`, `ReportingPersonController.php`
+- New: `app/Http/Requests/Reporting/{Create,Update,Sign}ReportingDamageReportRequest.php`
+- New: `database/migrations/2026_05_19_900001_create_reporting_damage_reports_table.php`
+- New: `database/migrations/2026_05_19_900002_create_reporting_damage_repairers_table.php`
+- Modified: `routes/api.php` — add Reporting prefix groups + imports
+- Modified: `BACKEND_CONTEXT.md` — Reporting section
+
+Frontend (atoms-maintenance):
+- New: `src/types/reporting.ts`
+- New: `src/services/reportingDamageReportService.ts`
+- New: `src/pages/reporting/ReportingListPage.tsx`
+- New: `src/pages/reporting/ReportingDamageFormPage.tsx`
+- New: `src/pages/reporting/ReportingDamagePrintView.tsx`
+- New: `src/pages/reporting/components/ReportingDamageSignaturePanel.tsx`
+- Modified: `src/components/layout/Topbar.tsx` — add Reporting menu (ClipboardList icon)
+- Modified: `src/router/index.tsx` — register Reporting routes + redirect legacy /reports
+- Modified: `src/pages/dashboard/DashboardPage.tsx` — quickNav Reporting → /reporting
+
+Context:
+- New: `.agents/instructions/reporting-rules.md`
+- Modified: `KIRO_TASK_CONTEXT.md` — Reporting Current State section
+- Modified: `.agents/session-handoff.md` — current state (this file)
+
+**Build/test:**
+- `rtk php artisan migrate` ✅ 2 new migrations
+- `rtk php artisan route:list --path=reporting` ✅ 8 routes
+- `rtk test php artisan test` ✅ 2 passed
+- `rtk npm run build` ✅ green (1.6 MB bundle, no TS errors)
+
+### Next Steps (Prioritas)
+
+1. **End-to-end manual test** — login via rostering, klik Reporting di topbar, klik Tambah Laporan, isi form, pilih Manager Teknik dan tambahkan beberapa pelaksana CNSD/TFP, simpan, sign manager + pelaksana, buka print view, verifikasi tidak auto-print.
+2. **Verifikasi modul lain tidak rusak** — Work Order, CNSD, TFP, Grounding, Ground Check.
+3. **Notification adoption untuk Reporting** (opsional) — pola EQ-1 sudah ada.
+4. **Approval workflow lanjutan untuk Reporting** (opsional) — saat ini status di-derive dari signature; bisa ditambah workflow draft → pending → final di masa depan.
+
+
+## Previous State (per 2026-05-19 — CNSD Localizer Meter Reading live)
 
 ### Perubahan Terbaru
 
@@ -29,11 +109,6 @@
 | Frontend build green | ✅ |
 
 **Commit hash backend:** `7ca7c31` | **Commit hash frontend:** `879e45c`
-
-### Next Steps
-
-1. End-to-end manual test — klik card Localizer, buat record, verifikasi form number LOCALIZER-*, print view.
-2. CNSD modul berikutnya — T-DME, DVOR, DME, ATC System, ATIS.
 
 
 ## Previous State (per 2026-05-19 — CNSD Glide Path Meter Reading live)
