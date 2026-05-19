@@ -28,7 +28,7 @@ description: Root-level steering for the ATOMS PROJECT workspace. Auto-loaded fo
 | `atoms-maintenance/` | ✅ Active development |
 | `atoms-rostering/` | 🔴 READ-ONLY — no writes ever (kecuali `MenuGrid.tsx` untuk SSO button) |
 
-## Integration Status (per 2026-05-19 — TFP AOB Ground live)
+## Integration Status (per 2026-05-19 — CNSD Receiver Meter Reading live)
 
 | Integration | Status |
 |-------------|--------|
@@ -82,6 +82,13 @@ description: Root-level steering for the ATOMS PROJECT workspace. Auto-loaded fo
 | - Frontend: list page, detail/edit (Transmitter + Lingkungan Kerja tabs), signature panel, print view | ✅ Implemented |
 | - Card Transmitter di CNSD index sekarang aktif (CNSD-005) | ✅ Implemented |
 | - Back Up Radio status disabled/blocked (grey cells, backend rejects update) | ✅ Implemented |
+| **CNSD Receiver Meter Reading (Phase 4 Module 6)** | ✅ **Live (2026-05-19)** |
+| - Backend: 3 migrations, 3 models, service, template (9 receiver groups + 4 env items), controller, requests | ✅ Implemented |
+| - Form-number `RECEIVER-YYMMDD-SEQ` (FORM C-2) | ✅ Implemented |
+| - Frontend: list page, detail/edit (Receiver + Lingkungan Kerja tabs), signature panel, print view | ✅ Implemented |
+| - Card Receiver di CNSD index sekarang aktif (CNSD-006) | ✅ Implemented |
+| - Status A/B dropdown: ON LINE / OFF LINE, Sequelsh On free text | ✅ Implemented |
+| Other CNSD cards (Glide Path, Localizer, T-DME, DVOR, DME, ATC System, ATIS) | 🚧 Coming Soon |
 | **TFP Performance Check AOB Lantai Ground (Phase 5 Module 1)** | ✅ **Live (2026-05-19)** |
 | - Backend: 4 migrations, 4 models, service, template (21 params + 17 facilities), controller, requests | ✅ Implemented |
 | - Form-number `TFP-AOBLTGND-YYMMDD-SEQ` | ✅ Implemented |

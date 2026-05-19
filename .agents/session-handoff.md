@@ -12,7 +12,36 @@
 
 ---
 
-## Current State (per 2026-05-19 — Ground Check ADC module shipped)
+## Current State (per 2026-05-19 — CNSD Receiver Meter Reading live)
+
+### Perubahan Terbaru
+
+| Fitur | Status |
+|---|---|
+| Card "Receiver" diaktifkan di CNSD index (CNSD-006) | ✅ |
+| Backend module: CnsdReceiverMeterRecord/Technician/Item + service/template/controller/requests | ✅ |
+| Migrations: `cnsd_receiver_meter_records`, `cnsd_receiver_meter_technicians`, `cnsd_receiver_meter_items` | ✅ |
+| Item template: 9 receiver groups + 4 Lingkungan Kerja | ✅ |
+| Form-number format: `RECEIVER-YYMMDD-SEQ` (FORM C-2) | ✅ |
+| Status A/B dropdown: ON LINE / OFF LINE | ✅ |
+| Roster integration: pull MT, Supervisor CNSD, all CNS technicians | ✅ |
+| Signature authorization: name-match, immutable, no delegation, per-technician row | ✅ |
+| Endpoints: 8 routes di bawah `/api/v1/cnsd/receiver-meter` | ✅ |
+| Frontend list page, detail/edit page (2 section tabs), signature panel, print view | ✅ |
+| CnsdIndexPage: CNSD-006 aktif di CNSD_ACTIVE_ROUTES | ✅ |
+| Backend tests pass (2 passed) | ✅ |
+| Frontend build green | ✅ |
+
+**Commit hash backend:** `ac41bbe` | **Commit hash frontend:** `7f2c131`
+
+### Next Steps (Prioritas)
+
+1. **End-to-end manual test** — login via rostering, buka CNSD, klik card Receiver, buat record, verifikasi teknisi CNSD, form number RECEIVER-*, 2 section tabs, print view.
+2. **CNSD modul berikutnya** — Glide Path, Localizer, dll jika ada form referensi resmi.
+3. **Notification adoption** untuk Receiver (pola EQ-1 sudah ada, tinggal adopt).
+
+
+## Previous State (per 2026-05-19 — Ground Check ADC module shipped)
 
 ### Perubahan Terbaru
 
