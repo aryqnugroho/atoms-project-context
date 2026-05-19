@@ -12,7 +12,31 @@
 
 ---
 
-## Current State (per 2026-05-19 — Reporting / Laporan Kerusakan module shipped)
+## Current State (per 2026-05-19 — CNSD T-DME Meter Reading live)
+
+### Perubahan Terbaru
+
+| Fitur | Status |
+|---|---|
+| Card "T-DME" diaktifkan di CNSD index (CNSD-009) | ✅ |
+| Backend: 3 migrations, 3 models, service, template (7 groups + 3 env), controller, requests | ✅ |
+| Form-number: `TDME-YYMMDD-SEQ` (FORM N-5) | ✅ |
+| Template: FRONT PANEL (dual TX1/TX2), PARAMETER/Pulse Shape/Frequency (dual M1/M2), Power Supply ×3 (single) | ✅ |
+| Extra fields: tx1_mode, tx2_mode (default MAIN / STANDBY) | ✅ |
+| Print view: Perum LPPNPI header, FAS CNS & OTOMASI, FORM N-5, TX1/TX2 info | ✅ |
+| All hooks at top level — Rules of Hooks compliant | ✅ |
+| Backend tests pass (2 passed) | ✅ |
+| Frontend build green | ✅ |
+
+**Commit hash backend:** `3d9616d` | **Commit hash frontend:** `5a4f01d`
+
+### Next Steps
+
+1. End-to-end manual test — klik card T-DME, buat record, verifikasi form number TDME-*, print view.
+2. CNSD modul berikutnya — DVOR, DME, ATC System, ATIS.
+
+
+## Previous State (per 2026-05-19 — Reporting / Laporan Kerusakan module shipped)
 
 ### Perubahan Terbaru
 
