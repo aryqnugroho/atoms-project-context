@@ -19,13 +19,13 @@ Other Ground Check cards (VHF, Localizer, Glide Path, DVOR) remain **Coming Soon
 
 | Aspek | CNSD | TFP | Ground Check ADC |
 |---|---|---|---|
-| Teknisi | `employee_type='CNS'` | `employee_type='Support'` | `employee_type='Support'` (TFP) |
-| Supervisor | CNS grade ≥ 13 | Support grade ≥ 13 | Support grade ≥ 13 (TFP) |
+| Teknisi | `employee_type='CNS'` | `employee_type='Support'` | `employee_type='CNS'` (CNSD) |
+| Supervisor | CNS grade ≥ 13 | Support grade ≥ 13 | CNS grade ≥ 13 (CNSD) |
 | Manager Teknik | dari roster | dari roster | dari roster |
 | Template | hardcoded per alat | hardcoded per alat | hardcoded per alat |
 | Kolom item | varies | panel columns | TX1/TX2 (Hasil PD, In Tolerance, Out of Tolerance) |
 
-Ground Check ADC uses **TFP personnel** (Support), not CNSD.
+Ground Check ADC uses **CNSD personnel** (CNS), not TFP.
 
 ---
 
@@ -91,18 +91,18 @@ Contoh: `GC-ADC-260519-001`
 Saat `POST /api/v1/ground-check/adc`:
 
 1. Backend ambil **Manager Teknik** dari `getShiftManager(shift, date)`.
-2. Backend ambil **Supervisor TFP** dari `getShiftSupervisorByDivision(shift, date, 'Support')`.
-3. Backend ambil **seluruh teknisi TFP** dari `getShiftPersonnel(shift, date)` filter `employee_type = 'Support'`.
-4. **Personel CNSD/CNS tidak diikutkan.**
-5. Jika tidak ada teknisi TFP → create gagal **422**.
+2. Backend ambil **Supervisor CNSD** dari `getShiftSupervisorByDivision(shift, date, 'CNS')`.
+3. Backend ambil **seluruh teknisi CNSD** dari `getShiftPersonnel(shift, date)` filter `employee_type = 'CNS'`.
+4. **Personel TFP/Support tidak diikutkan.**
+5. Jika tidak ada teknisi CNSD → create gagal **422**.
 6. Signer role dedup applied (supervisor/manager excluded from technician list).
 
 ---
 
 ## Signature Authorization
 
-Identik dengan TFP:
-- Role check: Manager Teknik / Supervisor TFP / Teknisi TFP.
+Identik dengan CNSD:
+- Role check: Manager Teknik / Supervisor CNSD / Teknisi CNSD.
 - Nama signer harus cocok (tolerant compare).
 - Teknisi sign per-row.
 - Signature **immutable**, **tidak boleh diwakilkan**.
@@ -159,10 +159,16 @@ Style follows CNSD/TFP card pattern (rounded-2xl, border, code, name, location, 
 
 ## Hard Constraints
 
-- ❌ Jangan ambil personel CNSD/CNS untuk Ground Check ADC — hanya `employee_type='Support'`.
+- ❌ Jangan ambil personel TFP/Support untuk Ground Check ADC — hanya `employee_type='CNS'` (CNSD).
 - ❌ Jangan ubah `form_number` / `date` / `shift_type` setelah tersimpan.
 - ❌ Jangan biarkan teknisi A menandatangani row milik teknisi B.
 - ❌ Jangan prefill kolom TX1/TX2 — harus kosong saat record baru.
 - ✅ Item template hanya boleh diubah via `GroundCheckAdcTemplate` source.
 - ✅ Personnel selalu di-resolve dari roster, tidak dari mock data.
 - ✅ CNSD, TFP, Work Order, Grounding tetap berjalan tanpa perubahan.
+
+## Catatan Data Lama
+
+Record Ground Check ADC yang dibuat sebelum fix (dengan roster TFP) tidak dihapus otomatis.
+Untuk record baru, wajib memakai roster CNSD.
+Jika perlu membersihkan data lama, lakukan dengan task terpisah atas instruksi eksplisit user.

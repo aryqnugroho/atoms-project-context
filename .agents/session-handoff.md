@@ -12,101 +12,63 @@
 
 ---
 
-## Current State (per 2026-05-19 — CNSD Receiver Meter Reading live)
+## Current State (per 2026-05-19 — Ground Check ADC routing and CNSD roster fix)
 
 ### Perubahan Terbaru
 
 | Fitur | Status |
 |---|---|
-| Card "Receiver" diaktifkan di CNSD index (CNSD-006) | ✅ |
-| Backend module: CnsdReceiverMeterRecord/Technician/Item + service/template/controller/requests | ✅ |
-| Migrations: `cnsd_receiver_meter_records`, `cnsd_receiver_meter_technicians`, `cnsd_receiver_meter_items` | ✅ |
-| Item template: 9 receiver groups + 4 Lingkungan Kerja | ✅ |
-| Form-number format: `RECEIVER-YYMMDD-SEQ` (FORM C-2) | ✅ |
-| Status A/B dropdown: ON LINE / OFF LINE | ✅ |
-| Roster integration: pull MT, Supervisor CNSD, all CNS technicians | ✅ |
-| Signature authorization: name-match, immutable, no delegation, per-technician row | ✅ |
-| Endpoints: 8 routes di bawah `/api/v1/cnsd/receiver-meter` | ✅ |
-| Frontend list page, detail/edit page (2 section tabs), signature panel, print view | ✅ |
-| CnsdIndexPage: CNSD-006 aktif di CNSD_ACTIVE_ROUTES | ✅ |
+| Bug fix: Ground Check ADC roster diubah dari TFP ke CNSD | ✅ |
+| Backend: `resolveRosterContext` sekarang filter `employee_type='CNS'` | ✅ |
+| Backend: `getShiftSupervisorByDivision(..., 'CNS')` untuk Supervisor CNSD | ✅ |
+| Backend: error message diubah dari "teknisi TFP" ke "teknisi CNSD" | ✅ |
+| Backend: `signTechnicianRow` sekarang check `isSupervisorCnsd()` bukan `isSupervisorTfp()` | ✅ |
+| Backend: route middleware `store` diubah dari `Supervisor TFP,Teknisi TFP` ke `Supervisor CNSD,Teknisi CNSD` | ✅ |
+| Frontend: `canCreate` diubah dari TFP roles ke CNSD roles | ✅ |
+| Frontend: `getSignerStatus` diubah dari TFP roles ke CNSD roles | ✅ |
+| Frontend: kolom "Teknisi TFP" diubah ke "Teknisi CNSD" di list page | ✅ |
+| Frontend: Badge supervisor diubah dari `variant="tfp"` ke `variant="cnsd"` | ✅ |
+| Frontend: empty state text diubah dari "teknisi TFP" ke "teknisi CNSD" | ✅ |
+| Frontend: signature panel role checks diubah dari TFP ke CNSD | ✅ |
 | Backend tests pass (2 passed) | ✅ |
 | Frontend build green | ✅ |
 
-**Commit hash backend:** `ac41bbe` | **Commit hash frontend:** `7f2c131`
+**Akar masalah Bug 1 (redirect ke Dashboard):**
+`canCreate` di `GroundCheckAdcListPage` mengecek `Supervisor TFP` dan `Teknisi TFP`. Karena user adalah CNSD, `canCreate` = false. Halaman list ADC tetap render, tapi tidak ada tombol "Buat Ground Check" dan empty state tidak menjelaskan kenapa. User mengira halaman salah dan navigasi manual ke dashboard. Setelah fix, CNSD user sekarang bisa melihat tombol create.
 
-### Next Steps (Prioritas)
+**Akar masalah Bug 2 (roster TFP):**
+`resolveRosterContext` di `GroundCheckAdcService` menggunakan `employee_type='Support'` (TFP) dan `getShiftSupervisorByDivision(..., 'Support')`. Ground Check ADC seharusnya menggunakan CNSD. Sudah diperbaiki ke `employee_type='CNS'` dan `getShiftSupervisorByDivision(..., 'CNS')`.
 
-1. **End-to-end manual test** — login via rostering, buka CNSD, klik card Receiver, buat record, verifikasi teknisi CNSD, form number RECEIVER-*, 2 section tabs, print view.
-2. **CNSD modul berikutnya** — Glide Path, Localizer, dll jika ada form referensi resmi.
-3. **Notification adoption** untuk Receiver (pola EQ-1 sudah ada, tinggal adopt).
+**Data lama:** Record yang sudah terlanjur dibuat dengan roster TFP tidak dihapus otomatis. Untuk record baru, wajib memakai roster CNSD.
 
-
-## Previous State (per 2026-05-19 — Ground Check ADC module shipped)
-
-### Perubahan Terbaru
-
-| Fitur | Status |
-|---|---|
-| Ground Check landing page redesigned (5 cards: ADC, VHF, Localizer, Glide Path, DVOR) | ✅ |
-| Card ADC aktif, lainnya Coming Soon | ✅ |
-| Backend module: GroundCheckAdcRecord/Technician/Item + service/template/controller/requests | ✅ |
-| Migrations: `ground_check_adc_records`, `ground_check_adc_technicians`, `ground_check_adc_items` | ✅ |
-| Partial unique index per (form_type, date, shift_type) | ✅ |
-| Item template: 3 sections (TRANSMITTER 2, RECEIVER 2, CONSOLE 20) = 24 items | ✅ |
-| Form-number format: `GC-ADC-YYMMDD-SEQ` (contoh `GC-ADC-260519-001`) | ✅ |
-| Roster integration: TFP personnel (Support), Supervisor TFP, Manager Teknik | ✅ |
-| Signer role dedup applied | ✅ |
-| Signature authorization: name-match, immutable, no delegation, per-technician row | ✅ |
-| Endpoints: 8 routes di bawah `/api/v1/ground-check/adc` | ✅ |
-| Frontend: list page, detail/edit page, signature panel, print view | ✅ |
-| Router: list/detail/print routes untuk Ground Check ADC | ✅ |
-| Print view: AirNav logo, manual only (no auto-print), CNSD/TFP-style footer | ✅ |
-| Metadata: report_month/airport/equipment_name/location autofill, function/data/calibration free text | ✅ |
-| TX1/TX2 columns empty on new records, user fills manually | ✅ |
-| In Tolerance / Out of Tolerance: dropdown √ / kosong | ✅ |
-| Work Order, CNSD, TFP, Grounding tetap berjalan | ✅ |
-| Backend tests pass (2 passed) | ✅ |
-| Frontend build green | ✅ |
-
-**File dibuat/diubah session ini:**
+**File diubah session ini:**
 
 Backend (atoms-maintenance):
-- New: `app/Models/GroundCheck/GroundCheckAdcRecord.php`, `GroundCheckAdcTechnician.php`, `GroundCheckAdcItem.php`
-- New: `app/Services/GroundCheck/GroundCheckAdcTemplate.php`, `GroundCheckAdcService.php`
-- New: `app/Http/Controllers/Api/V1/GroundCheck/GroundCheckAdcController.php`
-- New: `app/Http/Requests/GroundCheck/{Create,Update,Sign}GroundCheckAdcRequest.php`
-- New: 3 migrations under `database/migrations/2026_05_19_600001-600003_*`
-- Modified: `routes/api.php` (Ground Check ADC route group)
+- Modified: `app/Services/GroundCheck/GroundCheckAdcService.php` — CNSD roster, CNSD error messages, CNSD sign checks
+- Modified: `routes/api.php` — store middleware CNSD
 
 Frontend (atoms-maintenance):
-- New: `src/types/groundCheckAdc.ts`
-- New: `src/services/groundCheckAdcService.ts`
-- Rewritten: `src/pages/ground-check/GroundCheckIndexPage.tsx` (card-based, 5 equipment)
-- New: `src/pages/ground-check/GroundCheckAdcListPage.tsx`
-- New: `src/pages/ground-check/GroundCheckAdcDetailPage.tsx`
-- New: `src/pages/ground-check/GroundCheckAdcPrintView.tsx`
-- New: `src/pages/ground-check/components/GroundCheckAdcSignaturePanel.tsx`
-- Modified: `src/router/index.tsx` — register ADC list/detail/print routes
+- Modified: `src/pages/ground-check/GroundCheckAdcListPage.tsx` — canCreate CNSD, getSignerStatus CNSD, labels CNSD, Badge cnsd
+- Modified: `src/pages/ground-check/components/GroundCheckAdcSignaturePanel.tsx` — role checks CNSD
 
 Context:
-- New: `.agents/instructions/ground-check-rules.md`
+- Modified: `.agents/instructions/ground-check-rules.md` — corrected roster rules
+- Modified: `.agents/session-handoff.md` — current state
 
-**Build/test:** `rtk php artisan migrate` ✅ 3 new migrations | `rtk php artisan route:list --path=ground-check` ✅ 8 routes | `rtk test php artisan test` ✅ 2 passed | `rtk npm run build` ✅ green
+**Build/test:** `rtk php artisan route:list --path=ground-check` ✅ 8 routes | `rtk test php artisan test` ✅ 2 passed | `rtk npm run build` ✅ green
 
 **Commit hashes:**
-- Backend: `5fe4fde` (main)
-- Frontend: `3df1161` (main)
-- Context: `3f20ecc` (main)
+- Backend: `6e0990c` (main)
+- Frontend: `b26a048` (main)
 
 ### Next Steps (Prioritas)
 
-1. **End-to-end manual test** — login via rostering, buka Ground Check, klik ADC, buat record, verifikasi teknisi TFP, form number GC-ADC-*, metadata autofill, TX1/TX2 kosong, sign, print view.
-2. **Ground Check modul berikutnya** — VHF, Localizer, Glide Path, DVOR jika ada form referensi resmi.
-3. **Update KIRO_TASK_CONTEXT.md dan BACKEND_CONTEXT.md** — tambah section Ground Check ADC.
+1. **End-to-end manual test** — login sebagai Teknisi CNSD, buka Ground Check, klik ADC, pastikan masuk list ADC (bukan dashboard), pastikan tombol "Buat Ground Check" muncul, buat record, verifikasi teknisi CNSD (bukan TFP).
+2. **Data lama** — record yang sudah terlanjur punya roster TFP tidak diubah otomatis. Bisa dibersihkan dengan task terpisah jika diperlukan.
+3. **Ground Check modul berikutnya** — VHF, Localizer, Glide Path, DVOR jika ada form referensi resmi.
 
 
-
-## Previous State (per 2026-05-19 — Signer Role Deduplication fix shipped)
+## Previous State (per 2026-05-19 — CNSD Receiver Meter Reading live)
 
 ### Perubahan Terbaru
 
